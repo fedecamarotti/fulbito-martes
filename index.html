@@ -6,962 +6,359 @@
 <title>Fulbito Martes ⚽</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --verde: #1a7a3c;
-    --verde-claro: #25a050;
-    --amarillo: #f5c518;
-    --blanco: #f0f4f0;
-    --negro: #0d1a0f;
-    --gris: #1e2d20;
-    --gris2: #2c3e2e;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background-color: var(--negro);
-    color: var(--blanco);
-    font-family: 'Barlow', sans-serif;
-    min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(26,122,60,0.25) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 100%, rgba(37,160,80,0.15) 0%, transparent 60%);
-  }
-
-  /* HEADER */
-  header {
-    background: var(--negro);
-    border-bottom: 3px solid var(--verde-claro);
-    padding: 28px 20px 24px;
-    text-align: center;
-  }
-
-  .header-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .logo-img {
-    height: 160px;
-    width: auto;
-    mix-blend-mode: screen;
-  }
-
-  @keyframes pulso {
-    0%, 100% { filter: drop-shadow(0 4px 18px rgba(37,160,80,0.25)); }
-    50% { filter: drop-shadow(0 4px 32px rgba(37,160,80,0.55)); }
-  }
-
-  /* NAV */
-  nav {
-    background: var(--gris);
-    border-bottom: 2px solid var(--verde-claro);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  nav ul {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    list-style: none;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  nav ul::-webkit-scrollbar { display: none; }
-
-  nav ul li a {
-    display: block;
-    padding: 14px 22px;
-    color: rgba(255,255,255,0.6);
-    text-decoration: none;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    transition: all 0.2s;
-    border-bottom: 3px solid transparent;
-  }
-
-  nav ul li a:hover,
-  nav ul li a.activo {
-    color: var(--verde-claro);
-    border-bottom-color: var(--verde-claro);
-    background: rgba(37,160,80,0.08);
-  }
-
-  /* CONTENIDO */
-  main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 32px 20px;
-  }
-
-  .seccion {
-    display: none;
-    animation: fadeIn 0.3s ease;
-  }
-
-  .seccion.activa { display: block; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .seccion-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--blanco);
-    letter-spacing: 3px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .seccion-titulo::after {
-    content: '';
-    flex: 1;
-    height: 2px;
-    background: linear-gradient(90deg, var(--verde-claro), transparent);
-  }
-
-  /* TABLA */
-  .tabla-container {
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--gris2);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  thead {
-    background: var(--verde);
-  }
-
-  thead th {
-    padding: 12px 10px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.85);
-    text-align: center;
-  }
-
-  thead th:first-child { text-align: left; padding-left: 16px; }
-
-  tbody tr {
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    transition: background 0.15s;
-  }
-
-  tbody tr:hover { background: rgba(37,160,80,0.1); }
-
-  tbody tr:last-child { border-bottom: none; }
-
-  tbody td {
-    padding: 13px 10px;
-    text-align: center;
-    font-size: 0.92rem;
-    color: rgba(255,255,255,0.85);
-  }
-
-  tbody td:first-child {
-    text-align: left;
-    padding-left: 16px;
-  }
-
-  .jugador-foto {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center top;
-    border: 2px solid var(--verde-claro);
-    flex-shrink: 0;
-    margin-right: 8px;
-  }
-
-  .jugador-cell {
-    display: flex;
-    align-items: center;
-  }
-
-  .pos-num {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    color: rgba(255,255,255,0.4);
-    font-size: 0.85rem;
-    margin-right: 10px;
-  }
-
-  .equipo-nombre {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--blanco);
-  }
-
-  .pts {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.25rem;
-    color: var(--amarillo);
-    letter-spacing: 1px;
-  }
-
-  .lider td { background: rgba(245,197,24,0.06); }
-  .lider .equipo-nombre { color: var(--amarillo); }
-
-  .zona-clasif td:first-child {
-    border-left: none;
-  }
-
-  /* GOLEADORES */
-  .goleadores-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .goleador-card {
-    background: var(--gris);
-    border: 1px solid var(--gris2);
-    border-radius: 8px;
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    transition: all 0.2s;
-    animation: slideIn 0.3s ease both;
-  }
-
-  .goleador-card:hover {
-    border-color: var(--verde-claro);
-    transform: translateX(4px);
-  }
-
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-12px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  .gol-pos {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem;
-    color: rgba(255,255,255,0.2);
-    min-width: 32px;
-    text-align: center;
-  }
-
-  .gol-pos.top { color: var(--amarillo); }
-
-  .gol-info { flex: 1; }
-
-  .gol-nombre {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--blanco);
-  }
-
-  .gol-equipo {
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.45);
-    margin-top: 1px;
-  }
-
-  .gol-cantidad {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--verde-claro);
-    line-height: 1;
-  }
-
-  .gol-label {
-    font-family: 'Barlow', sans-serif;
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.4);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    line-height: 1.2;
-  }
-
-  .gol-bar-wrap {
-    width: 100%;
-    height: 4px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 2px;
-    margin-top: 6px;
-    overflow: hidden;
-  }
-
-  .gol-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--verde), var(--verde-claro));
-    border-radius: 2px;
-    transition: width 1s ease;
-  }
-
-  /* FECHAS NUEVO */
-  .partido-fdm {
-    background: var(--gris);
-    border: 1px solid var(--gris2);
-    border-radius: 10px;
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 10px;
-    transition: border-color 0.2s;
-  }
-
-  .partido-fdm:hover { border-color: var(--verde-claro); }
-
-  .equipo-fdm {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .equipo-fdm.negro { align-items: flex-end; text-align: right; }
-  .equipo-fdm.rosa { align-items: flex-start; text-align: left; }
-
-  .equipo-fdm-nombre {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    letter-spacing: 2px;
-  }
-
-  .equipo-fdm.negro .equipo-fdm-nombre { flex-direction: row-reverse; }
-
-  .equipo-fdm.rosa .equipo-fdm-nombre { color: #f093b0; }
-  .equipo-fdm.negro .equipo-fdm-nombre { color: #cccccc; }
-
-  .camiseta {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-  }
-
-  .jugadores-lista {
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.45);
-    letter-spacing: 0.5px;
-  }
-
-  /* FECHAS */
-  .fecha-bloque {
-    margin-bottom: 28px;
-  }
-
-  .fecha-header {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--verde-claro);
-    margin-bottom: 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--gris2);
-  }
-
-  .partido {
-    background: var(--gris);
-    border: 1px solid var(--gris2);
-    border-radius: 8px;
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    gap: 10px;
-    transition: border-color 0.2s;
-  }
-
-  .partido:hover { border-color: var(--verde-claro); }
-
-  .equipo-lado {
-    flex: 1;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-  }
-
-  .equipo-lado.derecha { text-align: right; }
-
-  .marcador {
-    background: var(--negro);
-    border: 1px solid var(--gris2);
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.3rem;
-    letter-spacing: 3px;
-    color: var(--amarillo);
-    min-width: 80px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-
-  .marcador.pendiente {
-    color: rgba(255,255,255,0.3);
-    font-size: 1rem;
-    letter-spacing: 1px;
-  }
-
-  /* HISTORICA */
-  .campeones-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 14px;
-  }
-
-  .campeon-card {
-    background: var(--gris);
-    border: 1px solid var(--gris2);
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    transition: all 0.2s;
-    animation: fadeIn 0.4s ease both;
-  }
-
-  .campeon-card:hover {
-    border-color: var(--amarillo);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(245,197,24,0.15);
-  }
-
-  .campeon-anio {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--amarillo);
-    letter-spacing: 2px;
-    line-height: 1;
-  }
-
-  .campeon-tipo {
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.35);
-    margin: 2px 0 8px;
-  }
-
-  .campeon-nombre {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--blanco);
-  }
-
-  .trofeo { font-size: 1.6rem; margin-bottom: 8px; }
-
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: rgba(255,255,255,0.2);
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    border-top: 1px solid var(--gris2);
-    margin-top: 20px;
-  }
-
-  @media (max-width: 520px) {
-    .header-text h1 { font-size: 2.2rem; }
-    .temporada-badge { display: none; }
-    .equipo-lado { font-size: 0.85rem; }
-  }
+:root{--verde:#00c8e0;--verde-claro:#00e5ff;--amarillo:#00c8e0;--blanco:#e8f0ff;--negro:#060d2e;--gris:#0d1a4a;--gris2:#1a2d6e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background-color:var(--negro);color:var(--blanco);font-family:'Barlow',sans-serif;min-height:100vh;background-image:radial-gradient(ellipse at 20% 0%,rgba(0,200,224,.18) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(0,100,200,.15) 0%,transparent 60%)}
+header{background:var(--negro);border-bottom:3px solid var(--verde-claro);padding:28px 20px 24px;text-align:center}
+.header-inner{max-width:900px;margin:0 auto;display:flex;justify-content:center;align-items:center}
+.logo-img{height:160px;width:auto;mix-blend-mode:screen}
+nav{background:var(--gris);border-bottom:2px solid var(--verde-claro);position:sticky;top:0;z-index:100}
+nav ul{max-width:900px;margin:0 auto;display:flex;list-style:none;overflow-x:auto;scrollbar-width:none}
+nav ul::-webkit-scrollbar{display:none}
+nav ul li a{display:block;padding:14px 22px;color:rgba(255,255,255,.6);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:all .2s;border-bottom:3px solid transparent}
+nav ul li a:hover,nav ul li a.activo{color:var(--verde-claro);border-bottom-color:var(--verde-claro);background:rgba(0,200,224,.08)}
+main{max-width:900px;margin:0 auto;padding:32px 20px}
+.seccion{display:none;animation:fadeIn .3s ease}
+.seccion.activa{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.seccion-titulo{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--blanco);letter-spacing:3px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.seccion-titulo::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--verde-claro),transparent)}
+.tabla-container{border-radius:8px;overflow:hidden;border:1px solid var(--gris2);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--verde)}
+thead th{padding:12px 10px;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85);text-align:center}
+thead th:first-child{text-align:left;padding-left:16px}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.06);transition:background .15s}
+tbody tr:hover{background:rgba(0,200,224,.1)}
+tbody tr:last-child{border-bottom:none}
+tbody td{padding:13px 10px;text-align:center;font-size:.92rem;color:rgba(255,255,255,.85)}
+tbody td:first-child{text-align:left;padding-left:16px}
+.jugador-foto{width:32px;height:32px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--verde-claro);flex-shrink:0;margin-right:8px}
+.jugador-cell{display:flex;align-items:center}
+.pos-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:rgba(255,255,255,.4);font-size:.85rem;margin-right:10px}
+.equipo-nombre{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;color:var(--blanco)}
+.pts{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;color:var(--verde-claro);letter-spacing:1px}
+.lider td{background:rgba(0,229,255,.06)}
+.lider .equipo-nombre{color:var(--verde-claro)}
+.lider .pos-num{color:var(--verde-claro)}
+.goleadores-list{display:flex;flex-direction:column;gap:10px}
+.goleador-card{background:var(--gris);border:1px solid var(--gris2);border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:16px;transition:all .2s;animation:slideIn .3s ease both}
+.goleador-card:hover{border-color:var(--verde-claro);transform:translateX(4px)}
+@keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+.gol-pos{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:rgba(255,255,255,.2);min-width:32px;text-align:center}
+.gol-pos.top{color:var(--verde-claro)}
+.gol-info{flex:1}
+.gol-nombre{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--blanco)}
+.gol-equipo{font-size:.82rem;color:rgba(255,255,255,.45);margin-top:1px}
+.gol-cantidad{display:flex;align-items:center;gap:6px;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--verde-claro);line-height:1}
+.gol-label{font-family:'Barlow',sans-serif;font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;line-height:1.2}
+.gol-bar-wrap{width:100%;height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:6px;overflow:hidden}
+.gol-bar{height:100%;background:linear-gradient(90deg,#0064c8,var(--verde-claro));border-radius:2px;transition:width 1s ease}
+.partido-fdm{background:var(--gris);border:1px solid var(--gris2);border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;transition:border-color .2s}
+.partido-fdm:hover{border-color:var(--verde-claro)}
+.equipo-fdm{flex:1;display:flex;flex-direction:column;gap:6px}
+.equipo-fdm.negro{align-items:flex-end;text-align:right}
+.equipo-fdm.rosa{align-items:flex-start;text-align:left}
+.equipo-fdm-nombre{display:flex;align-items:center;gap:7px;font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px}
+.equipo-fdm.negro .equipo-fdm-nombre{flex-direction:row-reverse}
+.equipo-fdm.rosa .equipo-fdm-nombre{color:#f093b0}
+.equipo-fdm.negro .equipo-fdm-nombre{color:#ccc}
+.camiseta{width:28px;height:28px;flex-shrink:0}
+.jugadores-lista{font-size:.78rem;color:rgba(255,255,255,.45);letter-spacing:.5px}
+.fecha-bloque{margin-bottom:28px}
+.fecha-header{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--gris2)}
+.marcador{background:var(--negro);border:1px solid var(--gris2);border-radius:6px;padding:6px 14px;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--verde-claro);min-width:80px;text-align:center;flex-shrink:0}
+.marcador.pendiente{color:rgba(255,255,255,.3);font-size:1rem;letter-spacing:1px}
+.campeones-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.campeon-card{background:var(--gris);border:1px solid var(--gris2);border-radius:10px;padding:20px;text-align:center;transition:all .2s;animation:fadeIn .4s ease both}
+.campeon-card:hover{border-color:var(--verde-claro);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,229,255,.15)}
+.campeon-anio{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--verde-claro);letter-spacing:2px;line-height:1}
+.campeon-tipo{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin:4px 0 8px}
+.campeon-nombre{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;color:var(--blanco)}
+.trofeo{font-size:2rem;margin-bottom:10px}
+footer{text-align:center;padding:24px;color:rgba(255,255,255,.25);font-size:.8rem;border-top:1px solid var(--gris2);margin-top:40px}
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-inner">
-    <h1 style="font-family:'Bebas Neue',sans-serif; font-size:3rem; letter-spacing:6px; color:#f0f4f0;">Fulbito Martes ⚽</h1>
+    <img src="logo.png" class="logo-img" alt="Fulbito Martes" onerror="this.style.display='none'">
   </div>
 </header>
 
 <nav>
   <ul>
-    <li><a href="#" class="activo" onclick="mostrar('tabla', this)">📊 Tabla</a></li>
-    <li><a href="#" onclick="mostrar('goleadores', this)">⚽ Goleadores</a></li>
-    <li><a href="#" onclick="mostrar('fechas', this)">📅 Fechas</a></li>
-    <li><a href="#" onclick="mostrar('historica', this)">🏆 Campeones</a></li>
-    <li><a href="#" onclick="mostrar('historica-tabla', this)">📈 Histórica</a></li>
-    <li><a href="#" onclick="mostrar('reglamento', this)">📋 Reglamento</a></li>
+    <li><a href="#" class="activo" onclick="return mostrar('tabla',this)">📊 Tabla</a></li>
+    <li><a href="#" onclick="return mostrar('goleadores',this)">⚽ Goleadores</a></li>
+    <li><a href="#" onclick="return mostrar('fechas',this)">📅 Fechas</a></li>
+    <li><a href="#" onclick="return mostrar('historica',this)">🏆 Campeones</a></li>
+    <li><a href="#" onclick="return mostrar('historica-tabla',this)">📈 Histórica</a></li>
+    <li><a href="#" onclick="return mostrar('reglamento',this)">📋 Reglamento</a></li>
   </ul>
 </nav>
 
 <main>
-
-  <!-- TABLA -->
   <section id="tabla" class="seccion activa">
     <div class="seccion-titulo">Torneo Apertura 26</div>
-    <div class="tabla-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Jugador</th>
-            <th>PTS</th>
-            <th>PJ</th>
-            <th>G</th>
-            <th>E</th>
-            <th>P</th>
-            <th>GF</th>
-            <th>GC</th>
-            <th>DIF</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="lider">
-            <td><span class="jugador-cell"><span class="pos-num">1</span><span class="equipo-nombre">Chivo</span></span></td>
-            <td><span class="pts">4</span></td>
-            <td>1</td><td>1</td><td>0</td><td>0</td><td>8</td><td>7</td><td>+1</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">2</span><span class="equipo-nombre">Fede</span></td>
-            <td><span class="pts">4</span></td>
-            <td>1</td><td>1</td><td>0</td><td>0</td><td>8</td><td>7</td><td>+1</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">3</span><span class="equipo-nombre">Rubi</span></td>
-            <td><span class="pts">4</span></td>
-            <td>1</td><td>1</td><td>0</td><td>0</td><td>8</td><td>7</td><td>+1</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">4</span><span class="equipo-nombre">Mati</span></td>
-            <td><span class="pts">4</span></td>
-            <td>1</td><td>1</td><td>0</td><td>0</td><td>8</td><td>7</td><td>+1</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">5</span><span class="equipo-nombre">Gaby</span></td>
-            <td><span class="pts">4</span></td>
-            <td>1</td><td>1</td><td>0</td><td>0</td><td>8</td><td>7</td><td>+1</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">6</span><span class="equipo-nombre">Maxi</span></td>
-            <td><span class="pts">1</span></td>
-            <td>1</td><td>0</td><td>0</td><td>1</td><td>7</td><td>8</td><td>-1</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">7</span><span class="equipo-nombre">Darío</span></td>
-            <td><span class="pts">1</span></td>
-            <td>1</td><td>0</td><td>0</td><td>1</td><td>7</td><td>8</td><td>-1</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">8</span><span class="equipo-nombre">Toro</span></td>
-            <td><span class="pts">1</span></td>
-            <td>1</td><td>0</td><td>0</td><td>1</td><td>7</td><td>8</td><td>-1</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">9</span><span class="equipo-nombre">Aaron</span></td>
-            <td><span class="pts">1</span></td>
-            <td>1</td><td>0</td><td>0</td><td>1</td><td>7</td><td>8</td><td>-1</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">10</span><span class="equipo-nombre">Compi</span></td>
-            <td><span class="pts">1</span></td>
-            <td>1</td><td>0</td><td>0</td><td>1</td><td>7</td><td>8</td><td>-1</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
+    <div class="tabla-container"><table id="tabla-posiciones">
+      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
   </section>
 
-  <!-- GOLEADORES -->
   <section id="goleadores" class="seccion">
     <div class="seccion-titulo">Tabla de Goleadores</div>
     <div class="goleadores-list" id="lista-goles"></div>
   </section>
 
-  <!-- FECHAS -->
   <section id="fechas" class="seccion">
     <div class="seccion-titulo">Resultados y Fixture</div>
-
-    <div class="fecha-bloque">
-      <div class="fecha-header">Fecha 1 — 17 Mar 2026</div>
-      <div class="partido-fdm">
-        <div class="equipo-fdm rosa">
-          <div class="equipo-fdm-nombre">
-            <svg class="camiseta" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 2 L2 10 L7 16 L12 12 L12 34 L28 34 L28 12 L33 16 L38 10 L26 2 C26 2 23 6 20 6 C17 6 14 2 14 2Z" fill="#e75480" stroke="#c0306a" stroke-width="1.5"/>
-            </svg>
-            Rosa
-          </div>
-          <div class="jugadores-lista">Fede, Chivo, Mati, Rubi, Gaby</div>
-        </div>
-        <div class="marcador">8 - 7</div>
-        <div class="equipo-fdm negro">
-          <div class="equipo-fdm-nombre">
-            <svg class="camiseta" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 2 L2 10 L7 16 L12 12 L12 34 L28 34 L28 12 L33 16 L38 10 L26 2 C26 2 23 6 20 6 C17 6 14 2 14 2Z" fill="#222222" stroke="#555" stroke-width="1.5"/>
-            </svg>
-            Negro
-          </div>
-          <div class="jugadores-lista">Maxi, Aaron, Toro, Compi, Darío</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="fecha-bloque">
-      <div class="fecha-header">Fecha 2 — 24 Mar 2026 · Próxima fecha</div>
-      <div class="partido-fdm">
-        <div class="equipo-fdm rosa">
-          <div class="equipo-fdm-nombre">
-            <svg class="camiseta" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 2 L2 10 L7 16 L12 12 L12 34 L28 34 L28 12 L33 16 L38 10 L26 2 C26 2 23 6 20 6 C17 6 14 2 14 2Z" fill="#e75480" stroke="#c0306a" stroke-width="1.5"/>
-            </svg>
-            Rosa
-          </div>
-          <div class="jugadores-lista">—</div>
-        </div>
-        <div class="marcador pendiente">vs</div>
-        <div class="equipo-fdm negro">
-          <div class="equipo-fdm-nombre">
-            <svg class="camiseta" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14 2 L2 10 L7 16 L12 12 L12 34 L28 34 L28 12 L33 16 L38 10 L26 2 C26 2 23 6 20 6 C17 6 14 2 14 2Z" fill="#222222" stroke="#555" stroke-width="1.5"/>
-            </svg>
-            Negro
-          </div>
-          <div class="jugadores-lista">—</div>
-        </div>
-      </div>
-    </div>
-
+    <div id="lista-fechas"></div>
   </section>
 
-  <!-- CAMPEONES -->
   <section id="historica" class="seccion">
     <div class="seccion-titulo">Campeones</div>
-    <div class="campeones-grid">
-      <div class="campeon-card" style="animation-delay:0.05s">
-        <div class="trofeo">🏆</div>
-        <div class="campeon-anio">2026</div>
-        <div class="campeon-tipo">Apertura</div>
-        <div class="campeon-nombre">—</div>
-      </div>
-      <div class="campeon-card" style="animation-delay:0.1s">
-        <div class="trofeo">
-          <svg width="40" height="52" viewBox="0 0 40 52" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="PS" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#c8c8c8"/>
-              <stop offset="35%" style="stop-color:#f0f0f0"/>
-              <stop offset="60%" style="stop-color:#ffffff"/>
-              <stop offset="100%" style="stop-color:#8a8a8a"/>
-            </linearGradient>
-            <linearGradient id="PS2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#a0a0a0"/>
-              <stop offset="50%" style="stop-color:#e8e8e8"/>
-              <stop offset="100%" style="stop-color:#a0a0a0"/>
-            </linearGradient>
-            <radialGradient id="esfera" cx="40%" cy="35%" r="55%">
-              <stop offset="0%" style="stop-color:#ffffff"/>
-              <stop offset="40%" style="stop-color:#d8d8d8"/>
-              <stop offset="100%" style="stop-color:#7a7a7a"/>
-            </radialGradient>
-          </defs>
-          <rect x="8" y="46" width="24" height="5" rx="2.5" fill="url(#PS2)"/>
-          <rect x="11" y="43" width="18" height="4" rx="1.5" fill="url(#PS)"/>
-          <rect x="18" y="32" width="4" height="12" fill="url(#PS)"/>
-          <rect x="13" y="30" width="14" height="3" rx="1.5" fill="url(#PS2)"/>
-          <path d="M14 22 Q6 22 6 28 Q6 31 13 31" fill="none" stroke="#c0c0c0" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M26 22 Q34 22 34 28 Q34 31 27 31" fill="none" stroke="#c0c0c0" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M15 14 Q14 20 14 22 L26 22 Q26 20 25 14 Z" fill="url(#PS)"/>
-          <rect x="13" y="13" width="14" height="2.5" rx="1" fill="url(#PS2)"/>
-          <circle cx="20" cy="9" r="9" fill="url(#esfera)" stroke="#b0b0b0" stroke-width="0.5"/>
-          <ellipse cx="17" cy="6" rx="3" ry="2" fill="rgba(255,255,255,0.5)"/>
-          <text x="20" y="12" text-anchor="middle" font-size="7" fill="rgba(160,160,160,0.8)">★</text>
-        </svg>
-        </div>
-        <div class="campeon-anio">2026</div>
-        <div class="campeon-tipo">Copa Verano</div>
-        <div class="campeon-nombre">Mati</div>
-      </div>
-      <div class="campeon-card" style="animation-delay:0.15s">
-        <div class="trofeo">🏆</div>
-        <div class="campeon-anio">2025</div>
-        <div class="campeon-tipo">Clausura</div>
-        <div class="campeon-nombre"><span class="jugador-cell" style="justify-content:center"> Chivo</span></div>
-      <div class="campeon-card" style="animation-delay:0.2s">
-        <div class="trofeo">🏆</div>
-        <div class="campeon-anio">2025</div>
-        <div class="campeon-tipo">Apertura</div>
-        <div class="campeon-nombre"><span class="jugador-cell" style="justify-content:center"></span></div>
-      </div>
-      <div class="campeon-card" style="animation-delay:0.25s">
-        <div class="trofeo">🏆</div>
-        <div class="campeon-anio">2024</div>
-        <div class="campeon-tipo">Clausura</div>
-        <div class="campeon-nombre"><span class="jugador-cell" style="justify-content:center"></span></div>
-      </div>
-      <div class="campeon-card" style="animation-delay:0.3s">
-        <div class="trofeo">🏆</div>
-        <div class="campeon-anio">2024</div>
-        <div class="campeon-tipo">Apertura</div>
-        <div class="campeon-nombre"><span class="jugador-cell" style="justify-content:center"></span></div>
-      </div>
-      <div class="campeon-card" style="animation-delay:0.35s">
-        <div class="trofeo">
-          <svg width="40" height="52" viewBox="0 0 40 52" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="PS3" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:#c8c8c8"/>
-              <stop offset="35%" style="stop-color:#f0f0f0"/>
-              <stop offset="60%" style="stop-color:#ffffff"/>
-              <stop offset="100%" style="stop-color:#8a8a8a"/>
-            </linearGradient>
-            <linearGradient id="PS4" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#a0a0a0"/>
-              <stop offset="50%" style="stop-color:#e8e8e8"/>
-              <stop offset="100%" style="stop-color:#a0a0a0"/>
-            </linearGradient>
-            <radialGradient id="esfera2" cx="40%" cy="35%" r="55%">
-              <stop offset="0%" style="stop-color:#ffffff"/>
-              <stop offset="40%" style="stop-color:#d8d8d8"/>
-              <stop offset="100%" style="stop-color:#7a7a7a"/>
-            </radialGradient>
-          </defs>
-          <rect x="8" y="46" width="24" height="5" rx="2.5" fill="url(#PS4)"/>
-          <rect x="11" y="43" width="18" height="4" rx="1.5" fill="url(#PS3)"/>
-          <rect x="18" y="32" width="4" height="12" fill="url(#PS3)"/>
-          <rect x="13" y="30" width="14" height="3" rx="1.5" fill="url(#PS4)"/>
-          <path d="M14 22 Q6 22 6 28 Q6 31 13 31" fill="none" stroke="#c0c0c0" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M26 22 Q34 22 34 28 Q34 31 27 31" fill="none" stroke="#c0c0c0" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M15 14 Q14 20 14 22 L26 22 Q26 20 25 14 Z" fill="url(#PS3)"/>
-          <rect x="13" y="13" width="14" height="2.5" rx="1" fill="url(#PS4)"/>
-          <circle cx="20" cy="9" r="9" fill="url(#esfera2)" stroke="#b0b0b0" stroke-width="0.5"/>
-          <ellipse cx="17" cy="6" rx="3" ry="2" fill="rgba(255,255,255,0.5)"/>
-          <text x="20" y="12" text-anchor="middle" font-size="7" fill="rgba(160,160,160,0.8)">★</text>
-        </svg>
-        </div>
-        <div class="campeon-anio">2024</div>
-        <div class="campeon-tipo">Copa Invierno</div>
-        <div class="campeon-nombre">Fede</div>
-      </div>
-      <div class="campeon-card" style="animation-delay:0.4s">
-        <div class="trofeo">🏆</div>
-        <div class="campeon-anio">2023</div>
-        <div class="campeon-tipo">Clausura</div>
-        <div class="campeon-nombre">Maxi</div>
-      </div>
-    </div>
+    <div class="campeones-grid" id="lista-campeones"></div>
   </section>
 
-  <!-- HISTÓRICA -->
   <section id="historica-tabla" class="seccion">
     <div class="seccion-titulo">Tabla Histórica</div>
-    <div class="tabla-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Jugador</th>
-            <th>PTS</th>
-            <th>PJ</th>
-            <th>G</th>
-            <th>E</th>
-            <th>P</th>
-            <th>+/-</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="lider">
-            <td><span class="jugador-cell"><span class="pos-num">1</span><span class="equipo-nombre">Chivo</span></span></td>
-            <td><span class="pts">226</span></td>
-            <td>93</td><td>52</td><td>9</td><td>32</td><td>+106</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">2</span><span class="equipo-nombre">Maxi</span></td>
-            <td><span class="pts">200</span></td>
-            <td>84</td><td>45</td><td>7</td><td>32</td><td>+78</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">3</span><span class="equipo-nombre">Fede</span></td>
-            <td><span class="pts">194</span></td>
-            <td>83</td><td>41</td><td>7</td><td>35</td><td>-4</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">4</span><span class="equipo-nombre">Darío</span></td>
-            <td><span class="pts">173</span></td>
-            <td>79</td><td>37</td><td>8</td><td>34</td><td>+11</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">5</span><span class="equipo-nombre">Mati</span></td>
-            <td><span class="pts">163</span></td>
-            <td>82</td><td>33</td><td>9</td><td>40</td><td>-57</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">6</span><span class="equipo-nombre">Rubi</span></td>
-            <td><span class="pts">161</span></td>
-            <td>79</td><td>34</td><td>8</td><td>37</td><td>-24</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">7</span><span class="equipo-nombre">Toro</span></td>
-            <td><span class="pts">98</span></td>
-            <td>56</td><td>20</td><td>6</td><td>30</td><td>-51</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">8</span><span class="equipo-nombre">Lucas</span></td>
-            <td><span class="pts">81</span></td>
-            <td>34</td><td>15</td><td>4</td><td>15</td><td>-19</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">9</span><span class="equipo-nombre">Aaron</span></td>
-            <td><span class="pts">69</span></td>
-            <td>33</td><td>17</td><td>5</td><td>11</td><td>+48</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">10</span><span class="equipo-nombre">Nuno</span></td>
-            <td><span class="pts">60</span></td>
-            <td>22</td><td>12</td><td>2</td><td>8</td><td>0</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">11</span><span class="equipo-nombre">Coco</span></td>
-            <td><span class="pts">58</span></td>
-            <td>32</td><td>11</td><td>4</td><td>17</td><td>-46</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">12</span><span class="equipo-nombre">Mariano</span></td>
-            <td><span class="pts">48</span></td>
-            <td>23</td><td>10</td><td>2</td><td>11</td><td>-29</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">13</span><span class="equipo-nombre">Nahue</span></td>
-            <td><span class="pts">43</span></td>
-            <td>18</td><td>9</td><td>3</td><td>6</td><td>+2</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">14</span><span class="equipo-nombre">Juani</span></td>
-            <td><span class="pts">43</span></td>
-            <td>28</td><td>8</td><td>2</td><td>18</td><td>-63</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">15</span><span class="equipo-nombre">Compi</span></td>
-            <td><span class="pts">36</span></td>
-            <td>20</td><td>5</td><td>2</td><td>13</td><td>-38</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">16</span><span class="equipo-nombre">Gaby</span></td>
-            <td><span class="pts">29</span></td>
-            <td>15</td><td>9</td><td>1</td><td>5</td><td>+30</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">17</span><span class="equipo-nombre">Tomi rmr</span></td>
-            <td><span class="pts">21</span></td>
-            <td>9</td><td>7</td><td>0</td><td>2</td><td>+34</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">18</span><span class="equipo-nombre">Valen</span></td>
-            <td><span class="pts">18</span></td>
-            <td>8</td><td>6</td><td>0</td><td>2</td><td>+40</td>
-          </tr>
-          <tr>
-            <td><span class="pos-num">19</span><span class="equipo-nombre">Juan A.</span></td>
-            <td><span class="pts">13</span></td>
-            <td>6</td><td>4</td><td>1</td><td>1</td><td>+16</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="tabla-container"><table id="tabla-historica">
+      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>+/-</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
   </section>
 
-  <!-- REGLAMENTO -->
   <section id="reglamento" class="seccion">
     <div class="seccion-titulo">Reglamento</div>
-    <div style="background:var(--gris); border:1px solid var(--gris2); border-radius:8px; padding:28px; line-height:1.8; color:rgba(255,255,255,0.8);">
-      <p style="margin-bottom:16px;">Acá podés agregar el reglamento de la liga. Por ejemplo:</p>
-      <ul style="padding-left:20px; display:flex; flex-direction:column; gap:10px;">
-        <li>Los partidos se juegan los días martes a partir de las 21hs.</li>
-        <li>Cada equipo debe presentarse con al menos 5 jugadores.</li>
-        <li>Se juegan 2 tiempos de 20 minutos cada uno.</li>
-        <li>Las tarjetas amarillas se acumulan. A la 3ra, suspensión por un partido.</li>
-        <li>Tarjeta roja directa: suspensión mínima de 2 fechas.</li>
-        <li>En caso de empate en la tabla, se desempata por diferencia de gol.</li>
-      </ul>
-    </div>
-  </section>
+    <div style="background:var(--gris);border:1px solid var(--gris2);border-radius:8px;padding:28px;line-height:1.8;color:rgba(255,255,255,.8);display:flex;flex-direction:column;gap:28px">
 
-</main>
-
-<footer>
-  Fulbito de los Martes &copy; 2022 - 2026
-</footer>
-
-<script>
-  // Goleadores data
-  const goleadores = [
-    { nombre: "Rubi", goles: 4 },
-    { nombre: "Gaby", goles: 2 },
-    { nombre: "Chivo", foto: "chivo", goles: 2 },
-    { nombre: "Darío", goles: 2 },
-    { nombre: "Toro", goles: 2 },
-    { nombre: "Aaron", goles: 1 },
-    { nombre: "Compi", goles: 1 },
-    { nombre: "Maxi", goles: 1 },
-  ];
-
-  const fotos = {
-    
-  };
-  const maxGoles = goleadores[0].goles;
-
-  const lista = document.getElementById('lista-goles');
-  goleadores.forEach((j, i) => {
-    const delay = i * 0.07;
-    const pct = Math.round((j.goles / maxGoles) * 100);
-    lista.innerHTML += `
-      <div class="goleador-card" style="animation-delay:${delay}s">
-        <div class="gol-pos ${i < 3 ? 'top' : ''}">${i + 1}</div>
-        ${j.foto && fotos[j.foto] ? `<img src="${fotos[j.foto]}" class="jugador-foto" style="width:36px;height:36px"/>` : ''}
-        <div class="gol-info">
-          <div class="gol-nombre">${j.nombre}</div>
-          <div class="gol-bar-wrap">
-            <div class="gol-bar" style="width:${pct}%"></div>
-          </div>
-        </div>
-        <div>
-          <div class="gol-cantidad">${j.goles}</div>
-          <div class="gol-label">goles</div>
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:12px">Puntos</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px">›  <span>Se otorgarán 3 (tres) puntos por victoria y 1 (uno) por asistencia.</span></div>
+          <div style="display:flex;gap:10px">›  <span>En caso de empate se realizará una definición de 3 penales por equipo para definir un ganador. De no poder realizarse por tiempos u otro factor ajeno a la organización del encuentro, se dará 1 (un) punto a cada equipo por empate.</span></div>
         </div>
       </div>
-    `;
-  });
 
-  // Nav
-  function mostrar(id, link) { // handles tabla, goleadores, fechas, historica, reglamento
-  // same logic
-    document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
-    document.querySelectorAll('nav a').forEach(a => a.classList.remove('activo'));
-    document.getElementById(id).classList.add('activa');
-    link.classList.add('activo');
-    return false;
-  }
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:12px">Tabla de Posiciones</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px">›  <span>En caso de paridad en puntaje las posiciones se determinarán primero por diferencia de gol, luego por partidos ganados, luego partidos empatados y luego por asistencias.</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:12px">Inscripciones</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px">›  <span>Se abrirá la lista para anotarse los días Lunes a las 12 hs del mediodía, hora local.</span></div>
+          <div style="display:flex;gap:10px">›  <span>No se podrá anotar a otra persona que no sea uno mismo.</span></div>
+          <div style="display:flex;gap:10px">›  <span>Si se completa la lista no se podrá hacer ningún cambio, SIN EXCEPCIONES.</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:12px">Sistema de Armado de Equipos</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px">›  <span>Los equipos se armarán uno y uno por orden de posiciones de la tabla actual tomando en cuenta los jugadores presentes y salteando los ausentes de la tabla.</span></div>
+          <div style="display:flex;gap:10px">›  <span>La última fecha del mes se armará el equipo 1ero vs 2do y 3ero, y el resto uno y uno por orden de posiciones de la tabla actual tomando en cuenta los jugadores presentes y salteando los ausentes de la tabla.</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:12px">VAR</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px">›  <span>En caso de desarrollarse una jugada de gol polémica se podrá recurrir al VAR y se definirá el resultado al día siguiente.</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:12px">Penalizaciones</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px">›  <span>Jugador que se queje abiertamente del sistema resta inmediatamente un punto de su puntaje al momento de la queja.</span></div>
+          <div style="display:flex;gap:10px">›  <span>Jugador que llegue 10 (diez) minutos tarde pierde el punto de asistencia del partido a disputar.</span></div>
+          <div style="display:flex;gap:10px">›  <span>Jugador que abandone un partido antes de su finalización no sumará puntos esa fecha y además no podrá anotarse en el partido siguiente.*</span></div>
+        </div>
+        <div style="margin-top:12px;font-style:italic;color:rgba(255,255,255,.45);font-size:.88rem">*Se evaluarán emergencias o razones de fuerza mayor.</div>
+      </div>
+
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:12px">Definición de Torneo</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px">›  <span>En caso de finalizar un torneo y dos o más jugadores se encuentran empatados en puntaje, diferencia de gol, partidos ganados, partidos empatados y asistencias, se definirá en una definición por penales, pateando y atajando 3 (tres) penales cada uno, sin posibilidad de elegir a otro jugador para patear y/o atajar.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>Fulbito de los Martes &copy; 2022 - 2026</footer>
+
+<script>
+// ─── DATOS — acá es donde actualizás cada semana ───────────────────────────
+
+const TORNEO_NOMBRE = "Torneo Apertura 26";
+
+const tablaPosiciones = [
+  // { nombre, pts, pj, g, e, p, gf, gc }
+  { nombre:"Chivo", pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
+  { nombre:"Fede",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
+  { nombre:"Rubi",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
+  { nombre:"Mati",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
+  { nombre:"Gaby",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
+  { nombre:"Maxi",  pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
+  { nombre:"Darío", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
+  { nombre:"Toro",  pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
+  { nombre:"Aaron", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
+  { nombre:"Compi", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
+];
+
+const goleadores = [
+  // { nombre, goles }
+  { nombre:"Rubi",  goles:4 },
+  { nombre:"Gaby",  goles:2 },
+  { nombre:"Chivo", goles:2 },
+  { nombre:"Darío", goles:2 },
+  { nombre:"Toro",  goles:2 },
+  { nombre:"Aaron", goles:1 },
+  { nombre:"Compi", goles:1 },
+  { nombre:"Maxi",  goles:1 },
+];
+
+const fechas = [
+  {
+    titulo: "Fecha 1 — 17 Mar 2026",
+    partidos: [
+      {
+        local:   { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Chivo, Mati, Rubi, Gaby" },
+        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Maxi, Aaron, Toro, Compi, Darío" },
+        marcador: "8 - 7"
+      }
+    ]
+  },
+  {
+    titulo: "Fecha 2 — 24 Mar 2026 · Próxima fecha",
+    partidos: [
+      {
+        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"—" },
+        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"—" },
+        marcador: null
+      }
+    ]
+  },
+];
+
+const campeones = [
+  { anio:2026, tipo:"Apertura",    nombre:"—",    trofeo:"🏆" },
+  { anio:2026, tipo:"Copa Verano", nombre:"Mati", trofeo:"plata" },
+  { anio:2025, tipo:"Clausura",    nombre:"Chivo",trofeo:"🏆" },
+  { anio:2025, tipo:"Apertura",    nombre:"—",    trofeo:"🏆" },
+  { anio:2024, tipo:"Clausura",    nombre:"—",    trofeo:"🏆" },
+  { anio:2024, tipo:"Apertura",    nombre:"—",    trofeo:"🏆" },
+  { anio:2024, tipo:"Copa Verano",  nombre:"Fede",trofeo:"plata" },
+  { anio:2023, tipo:"Clausura",    nombre:"Maxi", trofeo:"🏆" },
+];
+
+const tablaHistorica = [
+  // { nombre, pts, pj, g, e, p, dif }
+  { nombre:"Chivo",    pts:226, pj:93, g:52, e:9,  p:32, dif:"+106" },
+  { nombre:"Maxi",     pts:200, pj:84, g:45, e:7,  p:32, dif:"+78"  },
+  { nombre:"Fede",     pts:194, pj:83, g:41, e:7,  p:35, dif:"-4"   },
+  { nombre:"Darío",    pts:173, pj:79, g:37, e:8,  p:34, dif:"+11"  },
+  { nombre:"Mati",     pts:163, pj:82, g:33, e:9,  p:40, dif:"-57"  },
+  { nombre:"Rubi",     pts:161, pj:79, g:34, e:8,  p:37, dif:"-24"  },
+  { nombre:"Toro",     pts:98,  pj:56, g:20, e:6,  p:30, dif:"-51"  },
+  { nombre:"Lucas",    pts:81,  pj:34, g:15, e:4,  p:15, dif:"-19"  },
+  { nombre:"Aaron",    pts:69,  pj:33, g:17, e:5,  p:11, dif:"+48"  },
+  { nombre:"Nuno",     pts:60,  pj:22, g:12, e:2,  p:8,  dif:"0"    },
+  { nombre:"Coco",     pts:58,  pj:32, g:11, e:4,  p:17, dif:"-46"  },
+  { nombre:"Mariano",  pts:48,  pj:23, g:10, e:2,  p:11, dif:"-29"  },
+  { nombre:"Nahue",    pts:43,  pj:18, g:9,  e:3,  p:6,  dif:"+2"   },
+  { nombre:"Juani",    pts:43,  pj:28, g:8,  e:2,  p:18, dif:"-63"  },
+  { nombre:"Compi",    pts:36,  pj:20, g:5,  e:2,  p:13, dif:"-38"  },
+  { nombre:"Gaby",     pts:29,  pj:15, g:9,  e:1,  p:5,  dif:"+30"  },
+  { nombre:"Tomi rmr", pts:21,  pj:9,  g:7,  e:0,  p:2,  dif:"+34"  },
+  { nombre:"Valen",    pts:18,  pj:8,  g:6,  e:0,  p:2,  dif:"+40"  },
+  { nombre:"Juan A.",  pts:13,  pj:6,  g:4,  e:1,  p:1,  dif:"+16"  },
+];
+
+// ─── RENDER ────────────────────────────────────────────────────────────────
+
+// SVG camiseta
+function camiseta(color, stroke) {
+  return `<svg class="camiseta" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg"><path d="M14 2 L2 10 L7 16 L12 12 L12 34 L28 34 L28 12 L33 16 L38 10 L26 2 C26 2 23 6 20 6 C17 6 14 2 14 2Z" fill="${color}" stroke="${stroke}" stroke-width="1.5"/></svg>`;
+}
+
+const trofeoPlataSVG = `<span style="font-size:2rem;filter:grayscale(1) brightness(1.4) contrast(0.8);display:inline-block">🏆</span>`;
+
+// Tabla de posiciones
+document.querySelector('#tabla-posiciones tbody').innerHTML = tablaPosiciones.map((j, i) => {
+  const dif = j.gf - j.gc;
+  return `<tr${i===0?' class="lider"':''}>
+    <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
+    <td><span class="pts">${j.pts}</span></td>
+    <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
+    <td>${j.gf}</td><td>${j.gc}</td><td>${dif>0?'+'+dif:dif}</td>
+  </tr>`;
+}).join('');
+
+// Goleadores
+const maxGoles = goleadores[0].goles;
+document.getElementById('lista-goles').innerHTML = goleadores.map((j, i) => `
+  <div class="goleador-card" style="animation-delay:${i*.07}s">
+    <div class="gol-pos${i===0?' top':''}">${i+1}</div>
+    <div class="gol-info">
+      <div class="gol-nombre">${j.nombre}</div>
+      <div class="gol-bar-wrap"><div class="gol-bar" style="width:${Math.round(j.goles/maxGoles*100)}%"></div></div>
+    </div>
+    <div><div class="gol-cantidad">${j.goles}</div><div class="gol-label">goles</div></div>
+  </div>`).join('');
+
+// Fechas
+document.getElementById('lista-fechas').innerHTML = fechas.map(f => `
+  <div class="fecha-bloque">
+    <div class="fecha-header">${f.titulo}</div>
+    ${f.partidos.map(p => `
+    <div class="partido-fdm">
+      <div class="equipo-fdm rosa">
+        <div class="equipo-fdm-nombre">${camiseta(p.local.color,p.local.stroke)} ${p.local.equipo}</div>
+        <div class="jugadores-lista">${p.local.jugadores}</div>
+      </div>
+      <div class="marcador${p.marcador?'':' pendiente'}">${p.marcador||'vs'}</div>
+      <div class="equipo-fdm negro">
+        <div class="equipo-fdm-nombre">${camiseta(p.visitante.color,p.visitante.stroke)} ${p.visitante.equipo}</div>
+        <div class="jugadores-lista">${p.visitante.jugadores}</div>
+      </div>
+    </div>`).join('')}
+  </div>`).join('');
+
+// Campeones
+document.getElementById('lista-campeones').innerHTML = campeones.map((c, i) => `
+  <div class="campeon-card" style="animation-delay:${.05+i*.05}s">
+    <div class="trofeo">${c.trofeo==='plata'?trofeoPlataSVG:c.trofeo}</div>
+    <div class="campeon-anio">${c.anio}</div>
+    <div class="campeon-tipo">${c.tipo}</div>
+    <div class="campeon-nombre">${c.nombre}</div>
+  </div>`).join('');
+
+// Tabla histórica
+document.querySelector('#tabla-historica tbody').innerHTML = tablaHistorica.map((j, i) => `
+  <tr${i===0?' class="lider"':''}>
+    <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
+    <td><span class="pts">${j.pts}</span></td>
+    <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td><td>${j.dif}</td>
+  </tr>`).join('');
+
+// Nav
+function mostrar(id, link) {
+  document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('activo'));
+  document.getElementById(id).classList.add('activa');
+  link.classList.add('activo');
+  return false;
+}
 </script>
 </body>
 </html>
