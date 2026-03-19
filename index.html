@@ -31,7 +31,7 @@ thead th:first-child{text-align:left;padding-left:16px}
 tbody tr{border-bottom:1px solid rgba(255,255,255,.06);transition:background .15s}
 tbody tr:hover{background:rgba(0,200,224,.1)}
 tbody tr:last-child{border-bottom:none}
-tbody td{padding:13px 10px;text-align:center;font-size:.92rem;color:rgba(255,255,255,.85)}
+tbody td{padding:11px 10px 2px;text-align:center;font-size:.92rem;color:rgba(255,255,255,.85)}
 tbody td:first-child{text-align:left;padding-left:16px}
 .jugador-foto{width:32px;height:32px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--verde-claro);flex-shrink:0;margin-right:8px}
 .jugador-cell{display:flex;align-items:center}
@@ -41,6 +41,12 @@ tbody td:first-child{text-align:left;padding-left:16px}
 .lider td{background:rgba(0,229,255,.06)}
 .lider .equipo-nombre{color:var(--verde-claro)}
 .lider .pos-num{color:var(--verde-claro)}
+.forma-row td{padding-top:2px;padding-bottom:10px;border-bottom:none}
+.forma-row+tr{border-top:1px solid rgba(255,255,255,.06)}
+.badge{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:3px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.5px;margin-right:2px}
+.badge-V{background:rgba(0,160,80,.25);color:#4ecf88;border:1px solid rgba(0,160,80,.35)}
+.badge-E{background:rgba(180,140,0,.2);color:#c8a830;border:1px solid rgba(180,140,0,.3)}
+.badge-D{background:rgba(180,50,50,.22);color:#d97070;border:1px solid rgba(180,50,50,.32)}
 .goleadores-list{display:flex;flex-direction:column;gap:10px}
 .goleador-card{background:var(--gris);border:1px solid var(--gris2);border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:16px;transition:all .2s;animation:slideIn .3s ease both}
 .goleador-card:hover{border-color:var(--verde-claro);transform:translateX(4px)}
@@ -119,6 +125,7 @@ footer{text-align:center;padding:24px;color:rgba(255,255,255,.25);font-size:.8re
 
   <section id="historica" class="seccion">
     <div class="seccion-titulo">Campeones</div>
+    <div id="ranking-campeones" style="background:var(--gris);border:1px solid var(--gris2);border-radius:8px;padding:16px 20px;margin-bottom:20px;display:flex;flex-direction:column;gap:12px"></div>
     <div class="campeones-grid" id="lista-campeones"></div>
   </section>
 
@@ -202,17 +209,17 @@ footer{text-align:center;padding:24px;color:rgba(255,255,255,.25);font-size:.8re
 const TORNEO_NOMBRE = "Torneo Apertura 26";
 
 const tablaPosiciones = [
-  // { nombre, pts, pj, g, e, p, gf, gc }
-  { nombre:"Chivo", pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
-  { nombre:"Fede",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
-  { nombre:"Rubi",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
-  { nombre:"Mati",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
-  { nombre:"Gaby",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7 },
-  { nombre:"Maxi",  pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
-  { nombre:"Darío", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
-  { nombre:"Toro",  pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
-  { nombre:"Aaron", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
-  { nombre:"Compi", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8 },
+  // { nombre, pts, pj, g, e, p, gf, gc, forma: array de "V","E","D" o "" si no jugó }
+  { nombre:"Chivo", pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
+  { nombre:"Fede",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
+  { nombre:"Rubi",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
+  { nombre:"Mati",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
+  { nombre:"Gaby",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
+  { nombre:"Maxi",  pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
+  { nombre:"Darío", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
+  { nombre:"Toro",  pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
+  { nombre:"Aaron", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
+  { nombre:"Compi", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
 ];
 
 const goleadores = [
@@ -254,11 +261,18 @@ const campeones = [
   { anio:2026, tipo:"Apertura",    nombre:"—",    trofeo:"🏆" },
   { anio:2026, tipo:"Copa Verano", nombre:"Mati", trofeo:"plata" },
   { anio:2025, tipo:"Clausura",    nombre:"Chivo",trofeo:"🏆" },
-  { anio:2025, tipo:"Apertura",    nombre:"—",    trofeo:"🏆" },
-  { anio:2024, tipo:"Clausura",    nombre:"—",    trofeo:"🏆" },
-  { anio:2024, tipo:"Apertura",    nombre:"—",    trofeo:"🏆" },
+  { anio:2025, tipo:"Apertura",    nombre:"Chivo",trofeo:"🏆" },
+  { anio:2024, tipo:"Clausura",    nombre:"Chivo",trofeo:"🏆" },
+  { anio:2024, tipo:"Apertura",    nombre:"Chivo",trofeo:"🏆" },
   { anio:2024, tipo:"Copa Verano",  nombre:"Fede",trofeo:"plata" },
   { anio:2023, tipo:"Clausura",    nombre:"Maxi", trofeo:"🏆" },
+];
+
+const rankingCampeones = [
+  { nombre:"Chivo", trofeos:["🏆","🏆","🏆","🏆"] },
+  { nombre:"Maxi",  trofeos:["🏆"] },
+  { nombre:"Fede",  trofeos:["plata"] },
+  { nombre:"Mati",  trofeos:["plata"] },
 ];
 
 const tablaHistorica = [
@@ -296,11 +310,17 @@ const trofeoPlataSVG = `<span style="font-size:2rem;filter:grayscale(1) brightne
 // Tabla de posiciones
 document.querySelector('#tabla-posiciones tbody').innerHTML = tablaPosiciones.map((j, i) => {
   const dif = j.gf - j.gc;
-  return `<tr${i===0?' class="lider"':''}>
-    <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
-    <td><span class="pts">${j.pts}</span></td>
+  const badges = (j.forma||[]).map(r => `<span class="badge badge-${r}">${r}</span>`).join('');
+  const esLider = i === 0;
+  const cls = esLider ? ' class="lider"' : '';
+  return `<tr${cls} style="border-bottom:none">
+    <td rowspan="2" style="vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.06)"><span class="jugador-cell"><span class="pos-num" style="font-size:1rem">${i+1}</span><span class="equipo-nombre" style="font-size:1.15rem">${j.nombre}</span></span></td>
+    <td rowspan="2" style="vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.06)"><span class="pts" style="font-size:1.5rem">${j.pts}</span></td>
     <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
     <td>${j.gf}</td><td>${j.gc}</td><td>${dif>0?'+'+dif:dif}</td>
+  </tr>
+  <tr class="forma-row${esLider?' lider':''}">
+    <td colspan="7" style="text-align:left;padding-left:4px;border-bottom:1px solid rgba(255,255,255,.06)">${badges}</td>
   </tr>`;
 }).join('');
 
@@ -332,6 +352,13 @@ document.getElementById('lista-fechas').innerHTML = fechas.map(f => `
         <div class="jugadores-lista">${p.visitante.jugadores}</div>
       </div>
     </div>`).join('')}
+  </div>`).join('');
+
+// Ranking campeones
+document.getElementById('ranking-campeones').innerHTML = rankingCampeones.map((j, i) => `
+  <div style="display:flex;align-items:center;gap:12px;padding:6px 0;${i < rankingCampeones.length-1 ? 'border-bottom:1px solid var(--gris2)' : ''}">
+    <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;color:var(--blanco);min-width:80px">${j.nombre}</span>
+    <span style="display:flex;gap:4px;align-items:center">${j.trofeos.map(t => t==='plata' ? `<span style="font-size:1.3rem;filter:grayscale(1) brightness(1.4) contrast(0.8);display:inline-block">🏆</span>` : `<span style="font-size:1.3rem">🏆</span>`).join('')}</span>
   </div>`).join('');
 
 // Campeones
