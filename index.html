@@ -6,86 +6,86 @@
 <title>Fulbito Martes ⚽</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--verde:#00c8e0;--verde-claro:#00e5ff;--amarillo:#00c8e0;--blanco:#e8f0ff;--negro:#060d2e;--gris:#0d1a4a;--gris2:#1a2d6e}
+:root{--verde:#00c8e0;--verde-claro:#00e5ff;--amarillo:#00c8e0;--blanco:#e8f0ff;--negro:#060d2e;--gris:#0a1640;--gris2:#162058}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background-color:var(--negro);color:var(--blanco);font-family:'Outfit',sans-serif;min-height:100vh;background-image:radial-gradient(ellipse at 20% 0%,rgba(0,200,224,.18) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(0,100,200,.15) 0%,transparent 60%)}
-header{background:var(--negro);border-bottom:3px solid var(--verde-claro);padding:28px 20px 24px;text-align:center}
+body{background-color:var(--negro);color:var(--blanco);font-family:'Outfit',sans-serif;font-size:14px;min-height:100vh;background-image:radial-gradient(ellipse at 20% 0%,rgba(0,200,224,.12) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(0,100,200,.1) 0%,transparent 60%)}
+header{background:var(--negro);border-bottom:2px solid rgba(0,229,255,.3);padding:20px 20px 18px;text-align:center}
 .header-inner{max-width:900px;margin:0 auto;display:flex;justify-content:center;align-items:center}
-.logo-img{height:160px;width:auto;mix-blend-mode:screen}
-nav{background:var(--gris);border-bottom:2px solid var(--verde-claro);position:sticky;top:0;z-index:100}
+.logo-img{height:120px;width:auto;mix-blend-mode:screen}
+nav{background:rgba(10,22,64,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,229,255,.2);position:sticky;top:0;z-index:100}
 nav ul{max-width:900px;margin:0 auto;display:flex;list-style:none;overflow-x:auto;scrollbar-width:none}
 nav ul::-webkit-scrollbar{display:none}
-nav ul li a{display:block;padding:14px 22px;color:rgba(255,255,255,.6);text-decoration:none;font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;transition:all .2s;border-bottom:3px solid transparent}
-nav ul li a:hover,nav ul li a.activo{color:var(--verde-claro);border-bottom-color:var(--verde-claro);background:rgba(0,200,224,.08)}
-main{max-width:900px;margin:0 auto;padding:32px 20px}
-.seccion{display:none;animation:fadeIn .3s ease}
+nav ul li a{display:block;padding:12px 18px;color:rgba(255,255,255,.45);text-decoration:none;font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;transition:all .2s;border-bottom:2px solid transparent}
+nav ul li a:hover,nav ul li a.activo{color:var(--verde-claro);border-bottom-color:var(--verde-claro);background:rgba(0,200,224,.06)}
+main{max-width:900px;margin:0 auto;padding:24px 16px}
+.seccion{display:none;animation:fadeIn .25s ease}
 .seccion.activa{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.seccion-titulo{font-family:'Space Grotesk',sans-serif;font-size:2rem;color:var(--blanco);letter-spacing:.3px;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.seccion-titulo::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,var(--verde-claro),transparent)}
-.tabla-container{border-radius:8px;overflow:hidden;border:1px solid var(--gris2);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.seccion-titulo{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:600;color:var(--blanco);letter-spacing:-.2px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.seccion-titulo::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,229,255,.4),transparent)}
+.tabla-container{border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.06);box-shadow:0 4px 24px rgba(0,0,0,.35)}
 table{width:100%;border-collapse:collapse}
-thead{background:var(--verde)}
-thead th{padding:12px 10px;font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.85);text-align:center}
-thead th:first-child{text-align:left;padding-left:16px}
-thead th:nth-child(7),thead th:nth-child(8){padding-left:4px;padding-right:4px;color:rgba(255,255,255,.5)}
-tbody tr{border-bottom:1px solid rgba(255,255,255,.06);transition:background .15s}
-tbody tr:hover{background:rgba(0,200,224,.1)}
+thead{background:rgba(0,180,210,.15)}
+thead th{padding:9px 8px;font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.5);text-align:center}
+thead th:first-child{text-align:left;padding-left:14px}
+thead th:nth-child(7),thead th:nth-child(8){padding-left:3px;padding-right:3px;color:rgba(255,255,255,.3)}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+tbody tr:hover{background:rgba(0,200,224,.06)}
 tbody tr:last-child{border-bottom:none}
-tbody td{padding:11px 10px 2px;text-align:center;font-size:.92rem;color:rgba(255,255,255,.85)}
-tbody td:first-child{text-align:left;padding-left:16px}
-tbody td:nth-child(7),tbody td:nth-child(8){padding-left:4px;padding-right:4px;color:rgba(255,255,255,.45)}
-.jugador-foto{width:32px;height:32px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--verde-claro);flex-shrink:0;margin-right:8px}
+tbody td{padding:9px 8px 2px;text-align:center;font-size:.82rem;color:rgba(255,255,255,.7);font-weight:400}
+tbody td:first-child{text-align:left;padding-left:14px}
+tbody td:nth-child(7),tbody td:nth-child(8){padding-left:3px;padding-right:3px;color:rgba(255,255,255,.35)}
+.jugador-foto{width:28px;height:28px;border-radius:50%;object-fit:cover;object-position:center top;border:1.5px solid rgba(0,229,255,.5);flex-shrink:0;margin-right:8px}
 .jugador-cell{display:flex;align-items:center}
-.pos-num{font-family:'Outfit',sans-serif;font-weight:700;color:rgba(255,255,255,.4);font-size:.85rem;margin-right:10px}
-.equipo-nombre{font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem;color:var(--blanco)}
-.pts{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;color:var(--verde-claro);letter-spacing:.3px}
-.lider td{background:rgba(0,229,255,.06)}
+.pos-num{font-family:'Outfit',sans-serif;font-weight:500;color:rgba(255,255,255,.3);font-size:.75rem;margin-right:8px;min-width:14px}
+.equipo-nombre{font-family:'Outfit',sans-serif;font-weight:600;font-size:.88rem;color:var(--blanco)}
+.pts{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--verde-claro)}
+.lider td{background:rgba(0,229,255,.04)}
 .lider .equipo-nombre{color:var(--verde-claro)}
 .lider .pos-num{color:var(--verde-claro)}
-.forma-row td{padding-top:2px;padding-bottom:10px;border-bottom:none}
-.forma-row+tr{border-top:1px solid rgba(255,255,255,.06)}
-.badge{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:3px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.6rem;letter-spacing:.5px;margin-right:2px}
-.badge-V{background:rgba(0,160,80,.25);color:#4ecf88;border:1px solid rgba(0,160,80,.35)}
-.badge-E{background:rgba(180,140,0,.2);color:#c8a830;border:1px solid rgba(180,140,0,.3)}
-.badge-D{background:rgba(180,50,50,.22);color:#d97070;border:1px solid rgba(180,50,50,.32)}
-.badge-empty{background:rgba(0,40,120,.3);border:1px solid rgba(0,80,180,.25)}
-.goleadores-list{display:flex;flex-direction:column;gap:10px}
-.goleador-card{background:var(--gris);border:1px solid var(--gris2);border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:16px;transition:all .2s;animation:slideIn .3s ease both}
-.goleador-card:hover{border-color:var(--verde-claro);transform:translateX(4px)}
-@keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
-.gol-pos{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;color:rgba(255,255,255,.2);min-width:32px;text-align:center}
+.forma-row td{padding-top:3px;padding-bottom:8px;border-bottom:none}
+.forma-row+tr{border-top:1px solid rgba(255,255,255,.04)}
+.badge{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:3px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:0}
+.badge-V{background:rgba(0,140,70,.2);color:#3dba74;border:1px solid rgba(0,140,70,.3)}
+.badge-E{background:rgba(160,120,0,.18);color:#b8952a;border:1px solid rgba(160,120,0,.28)}
+.badge-D{background:rgba(160,40,40,.2);color:#c96060;border:1px solid rgba(160,40,40,.3)}
+.badge-empty{background:rgba(0,30,90,.25);border:1px solid rgba(0,60,150,.2)}
+.goleadores-list{display:flex;flex-direction:column;gap:8px}
+.goleador-card{background:rgba(10,22,64,.8);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:14px;transition:all .2s;animation:slideIn .3s ease both;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.goleador-card:hover{border-color:rgba(0,229,255,.25);transform:translateX(3px)}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+.gol-pos{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:rgba(255,255,255,.15);min-width:28px;text-align:center}
 .gol-pos.top{color:var(--verde-claro)}
 .gol-info{flex:1}
-.gol-nombre{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:700;color:var(--blanco)}
-.gol-equipo{font-size:.82rem;color:rgba(255,255,255,.45);margin-top:1px}
-.gol-cantidad{display:flex;align-items:center;gap:6px;font-family:'Space Grotesk',sans-serif;font-size:2rem;color:var(--verde-claro);line-height:1}
-.gol-label{font-family:'Outfit',sans-serif;font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.3px;text-transform:uppercase;line-height:1.2}
-.gol-bar-wrap{width:100%;height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:6px;overflow:hidden}
-.gol-bar{height:100%;background:linear-gradient(90deg,#0064c8,var(--verde-claro));border-radius:2px;transition:width 1s ease}
-.partido-fdm{background:var(--gris);border:1px solid var(--gris2);border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;transition:border-color .2s}
-.partido-fdm:hover{border-color:var(--verde-claro)}
-.equipo-fdm{flex:1;display:flex;flex-direction:column;gap:6px}
+.gol-nombre{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:600;color:var(--blanco)}
+.gol-equipo{font-size:.75rem;color:rgba(255,255,255,.35);margin-top:1px}
+.gol-cantidad{display:flex;align-items:center;gap:6px;font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;color:var(--verde-claro);line-height:1}
+.gol-label{font-family:'Outfit',sans-serif;font-size:.62rem;color:rgba(255,255,255,.3);letter-spacing:.5px;text-transform:uppercase;line-height:1.2}
+.gol-bar-wrap{width:100%;height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin-top:6px;overflow:hidden}
+.gol-bar{height:100%;background:linear-gradient(90deg,#0050a0,var(--verde-claro));border-radius:2px;transition:width 1s ease}
+.partido-fdm{background:rgba(10,22,64,.8);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;transition:border-color .2s;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.partido-fdm:hover{border-color:rgba(0,229,255,.25)}
+.equipo-fdm{flex:1;display:flex;flex-direction:column;gap:5px}
 .equipo-fdm.negro{align-items:flex-end;text-align:right}
 .equipo-fdm.rosa{align-items:flex-start;text-align:left}
-.equipo-fdm-nombre{display:flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif;font-size:1.4rem;letter-spacing:.5px}
+.equipo-fdm-nombre{display:flex;align-items:center;gap:6px;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:-.2px}
 .equipo-fdm.negro .equipo-fdm-nombre{flex-direction:row-reverse}
-.equipo-fdm.rosa .equipo-fdm-nombre{color:#f093b0}
-.equipo-fdm.negro .equipo-fdm-nombre{color:#ccc}
-.camiseta{width:28px;height:28px;flex-shrink:0}
-.jugadores-lista{font-size:.78rem;color:rgba(255,255,255,.45);letter-spacing:.5px}
-.fecha-bloque{margin-bottom:28px}
-.fecha-header{font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--gris2)}
-.marcador{background:var(--negro);border:1px solid var(--gris2);border-radius:6px;padding:6px 14px;font-family:'Space Grotesk',sans-serif;font-size:1.3rem;letter-spacing:.3px;color:var(--verde-claro);min-width:80px;text-align:center;flex-shrink:0}
-.marcador.pendiente{color:rgba(255,255,255,.3);font-size:1rem;letter-spacing:.3px}
-.campeones-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
-.campeon-card{background:var(--gris);border:1px solid var(--gris2);border-radius:10px;padding:20px;text-align:center;transition:all .2s;animation:fadeIn .4s ease both}
-.campeon-card:hover{border-color:var(--verde-claro);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,229,255,.15)}
-.campeon-anio{font-family:'Space Grotesk',sans-serif;font-size:2rem;color:var(--verde-claro);letter-spacing:.5px;line-height:1}
-.campeon-tipo{font-family:'Outfit',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.5);margin:4px 0 8px}
-.campeon-nombre{font-family:'Outfit',sans-serif;font-size:1.2rem;font-weight:700;color:var(--blanco)}
-.trofeo{font-size:2rem;margin-bottom:10px}
-footer{text-align:center;padding:24px;color:rgba(255,255,255,.25);font-size:.8rem;border-top:1px solid var(--gris2);margin-top:40px}
+.equipo-fdm.rosa .equipo-fdm-nombre{color:#e87aaa}
+.equipo-fdm.negro .equipo-fdm-nombre{color:#aab4cc}
+.camiseta{width:24px;height:24px;flex-shrink:0}
+.jugadores-lista{font-size:.7rem;color:rgba(255,255,255,.35);letter-spacing:.3px}
+.fecha-bloque{margin-bottom:24px}
+.fecha-header{font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--verde-claro);opacity:.8;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.06)}
+.marcador{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:5px 12px;font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.5px;color:var(--verde-claro);min-width:72px;text-align:center;flex-shrink:0}
+.marcador.pendiente{color:rgba(255,255,255,.25);font-size:.85rem}
+.campeones-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.campeon-card{background:rgba(10,22,64,.8);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:16px;text-align:center;transition:all .2s;animation:fadeIn .4s ease both;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.campeon-card:hover{border-color:rgba(0,229,255,.3);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,229,255,.08)}
+.campeon-anio{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;color:var(--verde-claro);letter-spacing:-.5px;line-height:1}
+.campeon-tipo{font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.4);margin:4px 0 8px}
+.campeon-nombre{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;color:var(--blanco)}
+.trofeo{font-size:1.8rem;margin-bottom:8px}
+footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72rem;border-top:1px solid rgba(255,255,255,.05);margin-top:32px}
 </style>
 </head>
 <body>
@@ -311,14 +311,20 @@ function camiseta(color, stroke) {
 const trofeoPlataSVG = `<span style="font-size:2rem;filter:grayscale(1) brightness(1.4) contrast(0.8);display:inline-block">🏆</span>`;
 
 // Tabla de posiciones
-document.querySelector('#tabla-posiciones tbody').innerHTML = tablaPosiciones.map((j, i) => {
+const tablaOrdenada = [...tablaPosiciones].sort((a, b) => {
+  if (b.pts !== a.pts) return b.pts - a.pts;
+  const difA = a.gf - a.gc, difB = b.gf - b.gc;
+  if (difB !== difA) return difB - difA;
+  return a.nombre.localeCompare(b.nombre, 'es');
+});
+document.querySelector('#tabla-posiciones tbody').innerHTML = tablaOrdenada.map((j, i) => {
   const dif = j.gf - j.gc;
   const badges = (j.forma||[]).map(r => r ? `<span class="badge badge-${r}">${r}</span>` : `<span class="badge badge-empty"></span>`).join('');
   const esLider = i === 0;
   const cls = esLider ? ' class="lider"' : '';
   return `<tr${cls} style="border-bottom:none">
-    <td rowspan="2" style="vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.06)"><span class="jugador-cell"><span class="pos-num" style="font-size:1rem">${i+1}</span><span class="equipo-nombre" style="font-size:1.15rem">${j.nombre}</span></span></td>
-    <td rowspan="2" style="vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.06)"><span class="pts" style="font-size:1.5rem">${j.pts}</span></td>
+    <td rowspan="2" style="vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.04)"><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
+    <td rowspan="2" style="vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.04)"><span class="pts">${j.pts}</span></td>
     <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
     <td>${j.gf}</td><td>${j.gc}</td><td>${dif>0?'+'+dif:dif}</td>
   </tr>
