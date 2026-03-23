@@ -323,8 +323,8 @@ document.querySelector('#tabla-posiciones tbody').innerHTML = tablaOrdenada.map(
   const esLider = i === 0;
   const cls = esLider ? ' class="lider"' : '';
   return `<tr${cls} style="border-bottom:none">
-    <td rowspan="2" style="vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.04)"><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
-    <td rowspan="2" style="vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.04)"><span class="pts">${j.pts}</span></td>
+    <td rowspan="2" style="vertical-align:middle;padding:0 8px 0 14px;border-bottom:1px solid rgba(255,255,255,.04)"><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
+    <td rowspan="2" style="vertical-align:middle;padding:0 8px;border-bottom:1px solid rgba(255,255,255,.04);text-align:center"><span class="pts">${j.pts}</span></td>
     <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
     <td>${j.gf}</td><td>${j.gc}</td><td>${dif>0?'+'+dif:dif}</td>
   </tr>
