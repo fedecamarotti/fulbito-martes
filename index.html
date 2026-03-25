@@ -109,8 +109,8 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 <main>
   <section id="tabla" class="seccion activa">
     <div class="seccion-titulo">Torneo Apertura 26</div>
-    <div class="tabla-container" style="overflow-x:auto"><table id="tabla-posiciones" style="min-width:600px">
-      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th><th style="min-width:320px;text-align:left;padding-left:8px;color:rgba(255,255,255,.3)">Forma</th></tr></thead>
+    <div class="tabla-container" style="overflow-x:auto"><table id="tabla-posiciones" style="min-width:max-content">
+      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th><th style="text-align:left;padding-left:8px;color:rgba(255,255,255,.3)">Forma</th></tr></thead>
       <tbody></tbody>
     </table></div>
   </section>
@@ -219,10 +219,10 @@ const tablaPosiciones = [
   { nombre:"Fede",  pts:5,  pj:2, g:1, e:0, p:1, gf:16, gc:23, forma:["V","D"] },
   { nombre:"Mati",  pts:5,  pj:2, g:1, e:0, p:1, gf:16, gc:23, forma:["V","D"] },
   { nombre:"Yamil", pts:4,  pj:1, g:1, e:0, p:0, gf:16, gc:8,  forma:["-","V"] },
-  { nombre:"Rubi",  pts:4,  pj:1, g:1, e:0, p:0, gf:8,  gc:7,  forma:["V",""] },
+  { nombre:"Rubi",  pts:4,  pj:1, g:1, e:0, p:0, gf:8,  gc:7,  forma:["V","-"] },
   { nombre:"Darío", pts:2,  pj:2, g:0, e:0, p:2, gf:15, gc:24, forma:["D","D"] },
   { nombre:"Toro",  pts:2,  pj:2, g:0, e:0, p:2, gf:15, gc:24, forma:["D","D"] },
-  { nombre:"Compi", pts:1,  pj:1, g:0, e:0, p:1, gf:7,  gc:8,  forma:["D",""] },
+  { nombre:"Compi", pts:1,  pj:1, g:0, e:0, p:1, gf:7,  gc:8,  forma:["D","-"] },
   { nombre:"Alan",  pts:1,  pj:1, g:0, e:0, p:1, gf:8,  gc:16, forma:["-","D"] },
 ];
 
@@ -334,9 +334,7 @@ document.querySelector('#tabla-posiciones tbody').innerHTML = tablaOrdenada.map(
   const dif = j.gf - j.gc;
   const badges = (j.forma||[]).map(r => {
     if (r === 'V' || r === 'E' || r === 'D') return `<span class="badge badge-${r}">${r}</span>`;
-    if (r === '') return `<span class="badge badge-empty"></span>`;
-    if (r === '-') return `<span class="badge badge-ausente">—</span>`;
-    return `<span class="badge badge-empty"></span>`;
+    return `<span class="badge badge-ausente">—</span>`;
   }).join('');
   const esLider = i === 0;
   const cls = esLider ? ' class="lider"' : '';
