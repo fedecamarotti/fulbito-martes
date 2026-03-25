@@ -154,7 +154,7 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
       <div>
         <div style="font-family:'Outfit',sans-serif;font-weight:700;font-size:1rem;letter-spacing:.3px;text-transform:uppercase;color:var(--verde-claro);margin-bottom:12px">Tabla de Posiciones</div>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;gap:10px">›  <span>En caso de paridad en puntaje las posiciones se determinarán primero por diferencia de gol, luego por partidos ganados, luego partidos empatados y luego por asistencias.</span></div>
+          <div style="display:flex;gap:10px">›  <span>En caso de paridad en puntaje las posiciones se determinarán primero por diferencia de gol, luego por partidos ganados, luego partidos empatados, luego por asistencias y por último por cantidad de goles hechos en tabla de goleadores.</span></div>
         </div>
       </div>
 
@@ -228,14 +228,18 @@ const tablaPosiciones = [
 
 const goleadores = [
   // { nombre, goles }
+  { nombre:"Gaby",  goles:6 },
+  { nombre:"Maxi",  goles:6 },
+  { nombre:"Aaron", goles:5 },
+  { nombre:"Toro",  goles:5 },
   { nombre:"Rubi",  goles:4 },
-  { nombre:"Gaby",  goles:2 },
-  { nombre:"Chivo", goles:2 },
-  { nombre:"Darío", goles:2 },
-  { nombre:"Toro",  goles:2 },
-  { nombre:"Aaron", goles:1 },
+  { nombre:"Chivo", goles:3 },
+  { nombre:"Darío", goles:3 },
+  { nombre:"Fede",  goles:2 },
+  { nombre:"Yamil", goles:2 },
+  { nombre:"Alan",  goles:1 },
   { nombre:"Compi", goles:1 },
-  { nombre:"Maxi",  goles:1 },
+  { nombre:"Mati",  goles:1 },
 ];
 
 const fechas = [
@@ -328,7 +332,14 @@ const tablaOrdenada = [...tablaPosiciones].sort((a, b) => {
   if (b.pts !== a.pts) return b.pts - a.pts;
   const difA = a.gf - a.gc, difB = b.gf - b.gc;
   if (difB !== difA) return difB - difA;
-  return a.nombre.localeCompare(b.nombre, 'es');
+  if (b.g !== a.g) return b.g - a.g;
+  if (b.e !== a.e) return b.e - a.e;
+  if (b.pj !== a.pj) return b.pj - a.pj;
+  const posGolA = goleadores.findIndex(g => g.nombre === a.nombre);
+  const posGolB = goleadores.findIndex(g => g.nombre === b.nombre);
+  const rankA = posGolA === -1 ? 999 : posGolA;
+  const rankB = posGolB === -1 ? 999 : posGolB;
+  return rankA - rankB;
 });
 document.querySelector('#tabla-posiciones tbody').innerHTML = tablaOrdenada.map((j, i) => {
   const dif = j.gf - j.gc;
