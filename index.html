@@ -43,13 +43,12 @@ tbody td:nth-child(7),tbody td:nth-child(8){padding-left:3px;padding-right:3px;c
 .lider td{background:rgba(0,229,255,.04)}
 .lider .equipo-nombre{color:var(--verde-claro)}
 .lider .pos-num{color:var(--verde-claro)}
-.forma-row td{padding-top:3px;padding-bottom:8px;border-bottom:none}
-.forma-row+tr{border-top:1px solid rgba(255,255,255,.04)}
 .badge{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:3px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:0}
 .badge-V{background:rgba(0,140,70,.2);color:#3dba74;border:1px solid rgba(0,140,70,.3)}
 .badge-E{background:rgba(160,120,0,.18);color:#b8952a;border:1px solid rgba(160,120,0,.28)}
 .badge-D{background:rgba(160,40,40,.2);color:#c96060;border:1px solid rgba(160,40,40,.3)}
 .badge-empty{background:rgba(0,30,90,.25);border:1px solid rgba(0,60,150,.2)}
+.badge-ausente{background:rgba(0,20,70,.35);color:rgba(0,120,255,.4);border:1px solid rgba(0,80,200,.25)}
 .goleadores-list{display:flex;flex-direction:column;gap:8px}
 .goleador-card{background:rgba(10,22,64,.8);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:14px;transition:all .2s;animation:slideIn .3s ease both;box-shadow:0 2px 12px rgba(0,0,0,.2)}
 .goleador-card:hover{border-color:rgba(0,229,255,.25);transform:translateX(3px)}
@@ -110,8 +109,8 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 <main>
   <section id="tabla" class="seccion activa">
     <div class="seccion-titulo">Torneo Apertura 26</div>
-    <div class="tabla-container"><table id="tabla-posiciones">
-      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th></tr></thead>
+    <div class="tabla-container" style="overflow-x:auto"><table id="tabla-posiciones" style="min-width:600px">
+      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th><th style="min-width:320px;text-align:left;padding-left:8px;color:rgba(255,255,255,.3)">Forma</th></tr></thead>
       <tbody></tbody>
     </table></div>
   </section>
@@ -212,17 +211,19 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 const TORNEO_NOMBRE = "Torneo Apertura 26";
 
 const tablaPosiciones = [
-  // { nombre, pts, pj, g, e, p, gf, gc, forma: array de "V","E","D" o "" si no jugó }
-  { nombre:"Chivo", pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
-  { nombre:"Fede",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
-  { nombre:"Rubi",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
-  { nombre:"Mati",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
-  { nombre:"Gaby",  pts:4, pj:1, g:1, e:0, p:0, gf:8, gc:7, forma:["V"] },
-  { nombre:"Maxi",  pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
-  { nombre:"Darío", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
-  { nombre:"Toro",  pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
-  { nombre:"Aaron", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
-  { nombre:"Compi", pts:1, pj:1, g:0, e:0, p:1, gf:7, gc:8, forma:["D"] },
+  // { nombre, pts, pj, g, e, p, gf, gc, forma: "V","E","D","" no jugó, "-" no estaba }
+  { nombre:"Chivo", pts:8,  pj:2, g:2, e:0, p:0, gf:24, gc:15, forma:["V","V"] },
+  { nombre:"Gaby",  pts:8,  pj:2, g:2, e:0, p:0, gf:24, gc:15, forma:["V","V"] },
+  { nombre:"Aaron", pts:5,  pj:2, g:1, e:0, p:1, gf:23, gc:16, forma:["D","V"] },
+  { nombre:"Maxi",  pts:5,  pj:2, g:1, e:0, p:1, gf:23, gc:16, forma:["D","V"] },
+  { nombre:"Fede",  pts:5,  pj:2, g:1, e:0, p:1, gf:16, gc:23, forma:["V","D"] },
+  { nombre:"Mati",  pts:5,  pj:2, g:1, e:0, p:1, gf:16, gc:23, forma:["V","D"] },
+  { nombre:"Yamil", pts:4,  pj:1, g:1, e:0, p:0, gf:16, gc:8,  forma:["-","V"] },
+  { nombre:"Rubi",  pts:4,  pj:1, g:1, e:0, p:0, gf:8,  gc:7,  forma:["V",""] },
+  { nombre:"Darío", pts:2,  pj:2, g:0, e:0, p:2, gf:15, gc:24, forma:["D","D"] },
+  { nombre:"Toro",  pts:2,  pj:2, g:0, e:0, p:2, gf:15, gc:24, forma:["D","D"] },
+  { nombre:"Compi", pts:1,  pj:1, g:0, e:0, p:1, gf:7,  gc:8,  forma:["D",""] },
+  { nombre:"Alan",  pts:1,  pj:1, g:0, e:0, p:1, gf:8,  gc:16, forma:["-","D"] },
 ];
 
 const goleadores = [
@@ -242,14 +243,24 @@ const fechas = [
     titulo: "Fecha 1 — 17 Mar 2026",
     partidos: [
       {
-        local:   { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Chivo, Mati, Rubi, Gaby" },
+        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Chivo, Mati, Rubi, Gaby" },
         visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Maxi, Aaron, Toro, Compi, Darío" },
         marcador: "8 - 7"
       }
     ]
   },
   {
-    titulo: "Fecha 2 — 24 Mar 2026 · Próxima fecha",
+    titulo: "Fecha 2 — 24 Mar 2026",
+    partidos: [
+      {
+        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Chivo, Gaby, Maxi, Aaron, Yamil" },
+        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Fede, Mati, Toro, Darío, Alan" },
+        marcador: "16 - 8"
+      }
+    ]
+  },
+  {
+    titulo: "Fecha 3 — 31 Mar 2026 · Próxima fecha",
     partidos: [
       {
         local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"—" },
@@ -280,25 +291,27 @@ const rankingCampeones = [
 
 const tablaHistorica = [
   // { nombre, pts, pj, g, e, p, dif }
-  { nombre:"Chivo",    pts:226, pj:93, g:52, e:9,  p:32, dif:"+106" },
-  { nombre:"Maxi",     pts:200, pj:84, g:45, e:7,  p:32, dif:"+78"  },
-  { nombre:"Fede",     pts:194, pj:83, g:41, e:7,  p:35, dif:"-4"   },
-  { nombre:"Darío",    pts:173, pj:79, g:37, e:8,  p:34, dif:"+11"  },
-  { nombre:"Mati",     pts:163, pj:82, g:33, e:9,  p:40, dif:"-57"  },
-  { nombre:"Rubi",     pts:161, pj:79, g:34, e:8,  p:37, dif:"-24"  },
-  { nombre:"Toro",     pts:98,  pj:56, g:20, e:6,  p:30, dif:"-51"  },
-  { nombre:"Lucas",    pts:81,  pj:34, g:15, e:4,  p:15, dif:"-19"  },
-  { nombre:"Aaron",    pts:69,  pj:33, g:17, e:5,  p:11, dif:"+48"  },
-  { nombre:"Nuno",     pts:60,  pj:22, g:12, e:2,  p:8,  dif:"0"    },
-  { nombre:"Coco",     pts:58,  pj:32, g:11, e:4,  p:17, dif:"-46"  },
-  { nombre:"Mariano",  pts:48,  pj:23, g:10, e:2,  p:11, dif:"-29"  },
-  { nombre:"Nahue",    pts:43,  pj:18, g:9,  e:3,  p:6,  dif:"+2"   },
-  { nombre:"Juani",    pts:43,  pj:28, g:8,  e:2,  p:18, dif:"-63"  },
-  { nombre:"Compi",    pts:36,  pj:20, g:5,  e:2,  p:13, dif:"-38"  },
-  { nombre:"Gaby",     pts:29,  pj:15, g:9,  e:1,  p:5,  dif:"+30"  },
-  { nombre:"Tomi rmr", pts:21,  pj:9,  g:7,  e:0,  p:2,  dif:"+34"  },
-  { nombre:"Valen",    pts:18,  pj:8,  g:6,  e:0,  p:2,  dif:"+40"  },
-  { nombre:"Juan A.",  pts:13,  pj:6,  g:4,  e:1,  p:1,  dif:"+16"  },
+  { nombre:"Chivo",    pts:230, pj:94,  g:53, e:9,  p:32, dif:"+114" },
+  { nombre:"Maxi",     pts:204, pj:85,  g:46, e:7,  p:32, dif:"+86"  },
+  { nombre:"Fede",     pts:195, pj:84,  g:41, e:7,  p:36, dif:"-12"  },
+  { nombre:"Darío",    pts:174, pj:80,  g:37, e:8,  p:35, dif:"+3"   },
+  { nombre:"Mati",     pts:164, pj:83,  g:33, e:9,  p:41, dif:"-65"  },
+  { nombre:"Rubi",     pts:161, pj:79,  g:34, e:8,  p:37, dif:"-24"  },
+  { nombre:"Toro",     pts:99,  pj:57,  g:20, e:6,  p:31, dif:"-59"  },
+  { nombre:"Lucas",    pts:81,  pj:34,  g:15, e:4,  p:15, dif:"-19"  },
+  { nombre:"Aaron",    pts:73,  pj:34,  g:18, e:5,  p:11, dif:"+56"  },
+  { nombre:"Nuno",     pts:60,  pj:22,  g:12, e:2,  p:8,  dif:"0"    },
+  { nombre:"Coco",     pts:58,  pj:32,  g:11, e:4,  p:17, dif:"-46"  },
+  { nombre:"Mariano",  pts:48,  pj:23,  g:10, e:2,  p:11, dif:"-29"  },
+  { nombre:"Nahue",    pts:43,  pj:18,  g:9,  e:3,  p:6,  dif:"+2"   },
+  { nombre:"Juani",    pts:43,  pj:28,  g:8,  e:2,  p:18, dif:"-63"  },
+  { nombre:"Compi",    pts:36,  pj:20,  g:5,  e:2,  p:13, dif:"-38"  },
+  { nombre:"Gaby",     pts:33,  pj:16,  g:10, e:1,  p:5,  dif:"+38"  },
+  { nombre:"Tomi rmr", pts:21,  pj:9,   g:7,  e:0,  p:2,  dif:"+34"  },
+  { nombre:"Valen",    pts:18,  pj:8,   g:6,  e:0,  p:2,  dif:"+40"  },
+  { nombre:"Juan A.",  pts:13,  pj:6,   g:4,  e:1,  p:1,  dif:"+16"  },
+  { nombre:"Yamil",    pts:4,   pj:1,   g:1,  e:0,  p:0,  dif:"+8"   },
+  { nombre:"Alan",     pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-8"   },
 ];
 
 // ─── RENDER ────────────────────────────────────────────────────────────────
@@ -319,19 +332,20 @@ const tablaOrdenada = [...tablaPosiciones].sort((a, b) => {
 });
 document.querySelector('#tabla-posiciones tbody').innerHTML = tablaOrdenada.map((j, i) => {
   const dif = j.gf - j.gc;
-  const badges = (j.forma||[]).map(r => r ? `<span class="badge badge-${r}">${r}</span>` : `<span class="badge badge-empty"></span>`).join('');
+  const badges = (j.forma||[]).map(r => {
+    if (r === 'V' || r === 'E' || r === 'D') return `<span class="badge badge-${r}">${r}</span>`;
+    if (r === '') return `<span class="badge badge-empty"></span>`;
+    if (r === '-') return `<span class="badge badge-ausente">—</span>`;
+    return `<span class="badge badge-empty"></span>`;
+  }).join('');
   const esLider = i === 0;
   const cls = esLider ? ' class="lider"' : '';
-  return `<tr${cls} style="border-bottom:none">
-    <td rowspan="2" style="vertical-align:middle;padding:0 8px 0 14px;border-bottom:1px solid rgba(255,255,255,.04)"><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
-    <td rowspan="2" style="vertical-align:middle;padding:0 8px;border-bottom:1px solid rgba(255,255,255,.04);text-align:center"><span class="pts">${j.pts}</span></td>
+  return `<tr${cls}>
+    <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
+    <td><span class="pts">${j.pts}</span></td>
     <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
     <td>${j.gf}</td><td>${j.gc}</td><td>${dif>0?'+'+dif:dif}</td>
-  </tr>
-  <tr class="forma-row${esLider?' lider':''}">
-    <td colspan="7" style="border-bottom:1px solid rgba(255,255,255,.06);padding:2px 8px 8px">
-      <div style="display:flex;justify-content:space-between;align-items:center">${badges}</div>
-    </td>
+    <td style="text-align:left;padding-left:8px;white-space:nowrap">${badges}</td>
   </tr>`;
 }).join('');
 
