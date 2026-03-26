@@ -106,12 +106,16 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 <nav>
   <ul>
     <li style="position:relative">
-      <a href="#" onclick="toggleDropdown(event);return mostrar('tabla',this)" id="nav-tabla">📊 Tabla ▼</a>
+      <a href="#" class="activo" onclick="return mostrar('tabla',this)" id="nav-tabla">📊 Tabla</a>
       <div id="tabla-dropdown" style="display:none;position:absolute;top:100%;left:0;background:rgba(6,13,46,.98);border:1px solid rgba(0,229,255,.2);border-radius:0 0 8px 8px;min-width:200px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.5)"></div>
     </li>
     <li><a href="#" onclick="return mostrar('goleadores',this)">⚽ Goleadores</a></li>
     <li><a href="#" onclick="return mostrar('fechas',this)">📅 Fechas</a></li>
     <li><a href="#" onclick="return mostrar('historica',this)">🏆 Campeones</a></li>
+    <li style="position:relative">
+      <a href="#" onclick="abrirCampeonatos(event)" id="nav-campeonatos">📋 Campeonatos ▼</a>
+      <div id="campeonatos-dropdown" style="display:none;position:absolute;top:100%;left:0;background:rgba(6,13,46,.98);border:1px solid rgba(0,229,255,.2);border-radius:0 0 8px 8px;min-width:200px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.5)"></div>
+    </li>
     <li><a href="#" onclick="return mostrar('historica-tabla',this)">📈 Histórica</a></li>
     <li><a href="#" onclick="return mostrar('reglamento',this)">📋 Reglamento</a></li>
   </ul>
@@ -142,7 +146,13 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
     <div class="campeones-grid" id="lista-campeones"></div>
   </section>
 
-  <section id="historica-tabla" class="seccion">
+  <section id="campeonatos" class="seccion">
+    <div class="seccion-titulo" id="campeonato-titulo"></div>
+    <div class="tabla-container"><table id="tabla-campeonato">
+      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>DIF</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </section>
     <div class="seccion-titulo">Tabla Histórica</div>
     <div class="tabla-container"><table id="tabla-historica">
       <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>+/-</th></tr></thead>
@@ -583,41 +593,49 @@ function renderTablaTorneo(datos, nombre) {
   }).join('');
 }
 
-function cerrarDropdown() {
+function abrirCampeonatos(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const dd = document.getElementById('campeonatos-dropdown');
+  dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+  return false;
+}
+
+function cerrarDropdowns() {
+  document.getElementById('campeonatos-dropdown').style.display = 'none';
   document.getElementById('tabla-dropdown').style.display = 'none';
 }
 
-// Construir dropdown
-const dropdown = document.getElementById('tabla-dropdown');
-const itemActual = document.createElement('div');
-itemActual.className = 'dropdown-item actual';
-itemActual.textContent = TORNEO_NOMBRE;
-itemActual.onclick = () => { renderTablaTorneo(tablaOrdenada, TORNEO_NOMBRE); cerrarDropdown(); };
-dropdown.appendChild(itemActual);
+document.addEventListener('click', cerrarDropdowns);
 
+// Construir dropdown campeonatos
+const ddCamp = document.getElementById('campeonatos-dropdown');
 torneosAnteriores.forEach(t => {
   const item = document.createElement('div');
   item.className = 'dropdown-item';
   item.textContent = t.nombre;
-  item.onclick = () => { renderTablaTorneo(t.tabla, t.nombre); cerrarDropdown(); };
-  dropdown.appendChild(item);
-});
-
-function toggleDropdown(e) {
-  e.stopPropagation();
-  e.preventDefault();
-  const dd = document.getElementById('tabla-dropdown');
-  dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
-}
-
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('#tabla-dropdown') && e.target.id !== 'nav-tabla') {
-    cerrarDropdown();
-  }
-});
-
-document.getElementById('nav-tabla').addEventListener('click', function(e) {
-  cerrarDropdown();
+  item.onclick = (e) => {
+    e.stopPropagation();
+    // Mostrar sección campeonatos
+    document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('activo'));
+    document.getElementById('campeonatos').classList.add('activa');
+    document.getElementById('nav-campeonatos').classList.add('activo');
+    // Render tabla
+    document.getElementById('campeonato-titulo').textContent = t.nombre;
+    document.querySelector('#tabla-campeonato tbody').innerHTML = t.tabla.map((j, i) => {
+      const dif = j.dif !== null && j.dif !== undefined ? (typeof j.dif === 'number' ? (j.dif > 0 ? '+'+j.dif : j.dif === 0 ? '0' : j.dif) : j.dif) : '-';
+      const cls = i === 0 ? ' class="campeon-fila"' : '';
+      return `<tr${cls}>
+        <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
+        <td><span class="pts">${j.pts}</span></td>
+        <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
+        <td>${dif}</td>
+      </tr>`;
+    }).join('');
+    cerrarDropdowns();
+  };
+  ddCamp.appendChild(item);
 });
 
 // Render inicial con torneo actual
