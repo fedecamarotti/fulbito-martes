@@ -106,8 +106,8 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 <nav>
   <ul>
     <li style="position:relative">
-      <a href="#" class="activo" onclick="return mostrar('tabla',this)" id="nav-tabla">📊 Tabla <span id="tabla-arrow" style="font-size:.6rem;vertical-align:middle;margin-left:2px">▼</span></a>
-      <div id="tabla-dropdown" style="display:none;position:absolute;top:100%;left:0;background:rgba(6,13,46,.98);border:1px solid rgba(0,229,255,.2);border-radius:0 0 8px 8px;min-width:180px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.5)"></div>
+      <a href="#" onclick="toggleDropdown(event);return mostrar('tabla',this)" id="nav-tabla">📊 Tabla ▼</a>
+      <div id="tabla-dropdown" style="display:none;position:absolute;top:100%;left:0;background:rgba(6,13,46,.98);border:1px solid rgba(0,229,255,.2);border-radius:0 0 8px 8px;min-width:200px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.5)"></div>
     </li>
     <li><a href="#" onclick="return mostrar('goleadores',this)">⚽ Goleadores</a></li>
     <li><a href="#" onclick="return mostrar('fechas',this)">📅 Fechas</a></li>
@@ -603,13 +603,22 @@ torneosAnteriores.forEach(t => {
   dropdown.appendChild(item);
 });
 
-document.getElementById('nav-tabla').addEventListener('click', function(e) {
+function toggleDropdown(e) {
   e.stopPropagation();
+  e.preventDefault();
   const dd = document.getElementById('tabla-dropdown');
   dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#tabla-dropdown') && e.target.id !== 'nav-tabla') {
+    cerrarDropdown();
+  }
 });
 
-document.addEventListener('click', cerrarDropdown);
+document.getElementById('nav-tabla').addEventListener('click', function(e) {
+  cerrarDropdown();
+});
 
 // Render inicial con torneo actual
 renderTablaTorneo(tablaOrdenada, TORNEO_NOMBRE);
