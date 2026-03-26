@@ -85,6 +85,14 @@ tbody td:nth-child(7),tbody td:nth-child(8){padding-left:3px;padding-right:3px;c
 .campeon-nombre{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:600;color:var(--blanco)}
 .trofeo{font-size:1.8rem;margin-bottom:8px}
 footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72rem;border-top:1px solid rgba(255,255,255,.05);margin-top:32px}
+.dropdown-item{display:block;padding:10px 16px;color:rgba(255,255,255,.6);font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;white-space:nowrap;cursor:pointer;transition:all .15s;border-bottom:1px solid rgba(255,255,255,.05)}
+.dropdown-item:last-child{border-bottom:none}
+.dropdown-item:hover{background:rgba(0,200,224,.08);color:var(--verde-claro)}
+.dropdown-item.actual{color:var(--verde-claro)}
+.campeon-fila td{background:rgba(255,180,0,.06)}
+.campeon-fila .equipo-nombre{color:#f5c040}
+.campeon-fila .pos-num{color:#f5c040}
+.campeon-fila .pts{color:#f5c040}
 </style>
 </head>
 <body>
@@ -97,7 +105,10 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 
 <nav>
   <ul>
-    <li><a href="#" class="activo" onclick="return mostrar('tabla',this)">📊 Tabla</a></li>
+    <li style="position:relative">
+      <a href="#" class="activo" onclick="return mostrar('tabla',this)" id="nav-tabla">📊 Tabla <span id="tabla-arrow" style="font-size:.6rem;vertical-align:middle;margin-left:2px">▼</span></a>
+      <div id="tabla-dropdown" style="display:none;position:absolute;top:100%;left:0;background:rgba(6,13,46,.98);border:1px solid rgba(0,229,255,.2);border-radius:0 0 8px 8px;min-width:180px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.5)"></div>
+    </li>
     <li><a href="#" onclick="return mostrar('goleadores',this)">⚽ Goleadores</a></li>
     <li><a href="#" onclick="return mostrar('fechas',this)">📅 Fechas</a></li>
     <li><a href="#" onclick="return mostrar('historica',this)">🏆 Campeones</a></li>
@@ -108,7 +119,7 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 
 <main>
   <section id="tabla" class="seccion activa">
-    <div class="seccion-titulo">Torneo Apertura 26</div>
+    <div class="seccion-titulo" id="tabla-titulo">Torneo Apertura 26</div>
     <div class="tabla-container" style="overflow-x:auto"><table id="tabla-posiciones" style="min-width:max-content">
       <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th><th style="text-align:left;padding-left:8px;color:rgba(255,255,255,.3)">Fechas</th></tr></thead>
       <tbody></tbody>
@@ -209,6 +220,139 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 // ─── DATOS — acá es donde actualizás cada semana ───────────────────────────
 
 const TORNEO_NOMBRE = "Torneo Apertura 26";
+
+const torneosAnteriores = [
+  {
+    nombre: "Copa Verano 2026",
+    tabla: [
+      { nombre:"Mati",   pts:18, pj:8,  g:6, e:0, p:2, gf:123, gc:92,  dif:31  },
+      { nombre:"Toro",   pts:15, pj:7,  g:5, e:0, p:2, gf:102, gc:91,  dif:11  },
+      { nombre:"Gabi",   pts:12, pj:8,  g:4, e:0, p:4, gf:114, gc:101, dif:13  },
+      { nombre:"Tomi",   pts:9,  pj:4,  g:3, e:0, p:1, gf:56,  gc:46,  dif:10  },
+      { nombre:"Darío",  pts:9,  pj:4,  g:3, e:0, p:1, gf:48,  gc:48,  dif:0   },
+      { nombre:"Rubi",   pts:9,  pj:7,  g:3, e:0, p:4, gf:96,  gc:98,  dif:-2  },
+      { nombre:"Maxi",   pts:9,  pj:6,  g:3, e:0, p:3, gf:76,  gc:91,  dif:-15 },
+      { nombre:"Marian", pts:6,  pj:3,  g:2, e:0, p:1, gf:37,  gc:27,  dif:10  },
+      { nombre:"Chivo",  pts:6,  pj:8,  g:2, e:0, p:6, gf:104, gc:111, dif:-7  },
+      { nombre:"Aaron",  pts:6,  pj:5,  g:2, e:0, p:3, gf:59,  gc:74,  dif:-15 },
+      { nombre:"Fede",   pts:3,  pj:2,  g:1, e:0, p:1, gf:21,  gc:21,  dif:0   },
+      { nombre:"Coco",   pts:0,  pj:1,  g:0, e:0, p:1, gf:9,   gc:12,  dif:-3  },
+      { nombre:"Juani",  pts:0,  pj:2,  g:0, e:0, p:2, gf:23,  gc:30,  dif:-7  },
+      { nombre:"Compi",  pts:0,  pj:1,  g:0, e:0, p:1, gf:8,   gc:11,  dif:-3  },
+    ]
+  },
+  {
+    nombre: "Clausura 2025",
+    tabla: [
+      { nombre:"Chivo",  pts:34, pj:19, g:10, e:4, p:5,  gf:null, gc:null, dif:39  },
+      { nombre:"Maxi",   pts:31, pj:19, g:9,  e:4, p:6,  gf:null, gc:null, dif:34  },
+      { nombre:"Aaron",  pts:30, pj:14, g:9,  e:3, p:2,  gf:null, gc:null, dif:53  },
+      { nombre:"Fede",   pts:27, pj:16, g:8,  e:3, p:5,  gf:null, gc:null, dif:-12 },
+      { nombre:"Mati",   pts:25, pj:18, g:7,  e:4, p:7,  gf:null, gc:null, dif:-33 },
+      { nombre:"Rubi",   pts:22, pj:20, g:6,  e:4, p:10, gf:null, gc:null, dif:-40 },
+      { nombre:"Darío",  pts:21, pj:17, g:6,  e:3, p:8,  gf:null, gc:null, dif:13  },
+      { nombre:"Valen",  pts:18, pj:7,  g:6,  e:0, p:1,  gf:null, gc:null, dif:41  },
+      { nombre:"Gabi",   pts:13, pj:6,  g:4,  e:1, p:1,  gf:null, gc:null, dif:16  },
+      { nombre:"Toro",   pts:13, pj:17, g:3,  e:4, p:10, gf:null, gc:null, dif:-48 },
+      { nombre:"Tomás",  pts:9,  pj:3,  g:3,  e:0, p:0,  gf:null, gc:null, dif:22  },
+      { nombre:"Juan A.",pts:9,  pj:7,  g:2,  e:3, p:2,  gf:null, gc:null, dif:0   },
+      { nombre:"Coco",   pts:8,  pj:9,  g:2,  e:2, p:5,  gf:null, gc:null, dif:-23 },
+      { nombre:"Juani",  pts:7,  pj:9,  g:2,  e:1, p:6,  gf:null, gc:null, dif:-14 },
+      { nombre:"Nahue",  pts:5,  pj:5,  g:1,  e:2, p:2,  gf:null, gc:null, dif:2   },
+      { nombre:"Lucas",  pts:1,  pj:2,  g:0,  e:1, p:1,  gf:null, gc:null, dif:-7  },
+      { nombre:"Marian", pts:0,  pj:4,  g:0,  e:0, p:4,  gf:null, gc:null, dif:-37 },
+    ]
+  },
+  {
+    nombre: "Apertura 2025",
+    tabla: [
+      { nombre:"Chivo",  pts:54, pj:20, g:11, e:1, p:8,  gf:null, gc:null, dif:21  },
+      { nombre:"Fede",   pts:54, pj:20, g:11, e:1, p:8,  gf:null, gc:null, dif:16  },
+      { nombre:"Maxi",   pts:53, pj:19, g:11, e:1, p:7,  gf:null, gc:null, dif:20  },
+      { nombre:"Toro",   pts:44, pj:19, g:8,  e:1, p:10, gf:null, gc:null, dif:-8  },
+      { nombre:"Nahue",  pts:38, pj:13, g:8,  e:1, p:4,  gf:null, gc:null, dif:2   },
+      { nombre:"Rubi",   pts:36, pj:15, g:7,  e:0, p:8,  gf:null, gc:null, dif:-9  },
+      { nombre:"Juani",  pts:36, pj:17, g:6,  e:1, p:10, gf:null, gc:null, dif:-42 },
+      { nombre:"Aaron",  pts:25, pj:9,  g:5,  e:1, p:3,  gf:null, gc:null, dif:19  },
+      { nombre:"Marian", pts:25, pj:9,  g:5,  e:1, p:3,  gf:null, gc:null, dif:-3  },
+      { nombre:"Darío",  pts:23, pj:10, g:4,  e:1, p:5,  gf:null, gc:null, dif:5   },
+      { nombre:"Mati",   pts:22, pj:15, g:2,  e:1, p:12, gf:null, gc:null, dif:-49 },
+      { nombre:"Coco",   pts:10, pj:4,  g:2,  e:0, p:2,  gf:null, gc:null, dif:-12 },
+      { nombre:"Lucas",  pts:8,  pj:2,  g:2,  e:0, p:0,  gf:null, gc:null, dif:16  },
+      { nombre:"Compi",  pts:2,  pj:2,  g:0,  e:2, p:0,  gf:null, gc:null, dif:-11 },
+      { nombre:"Juan A.",pts:1,  pj:1,  g:0,  e:0, p:1,  gf:null, gc:null, dif:-14 },
+    ]
+  },
+  {
+    nombre: "Copa Verano 2025",
+    tabla: [
+      { nombre:"Fede",   pts:12, pj:3, g:3, e:0, p:0, gf:null, gc:null, dif:null },
+      { nombre:"Darío",  pts:9,  pj:3, g:2, e:0, p:1, gf:null, gc:null, dif:null },
+      { nombre:"Marian", pts:9,  pj:3, g:2, e:0, p:1, gf:null, gc:null, dif:null },
+      { nombre:"Chivo",  pts:9,  pj:3, g:2, e:0, p:1, gf:null, gc:null, dif:null },
+      { nombre:"Mati",   pts:6,  pj:3, g:1, e:0, p:2, gf:null, gc:null, dif:null },
+      { nombre:"Rubi",   pts:3,  pj:3, g:0, e:0, p:3, gf:null, gc:null, dif:null },
+      { nombre:"Nuno",   pts:3,  pj:3, g:0, e:0, p:3, gf:null, gc:null, dif:null },
+      { nombre:"Maxi",   pts:2,  pj:2, g:0, e:0, p:2, gf:null, gc:null, dif:null },
+    ]
+  },
+  {
+    nombre: "Clausura 2024",
+    tabla: [
+      { nombre:"Chivo",  pts:49, pj:17, g:10, e:2, p:5, gf:null, gc:null, dif:22  },
+      { nombre:"Nuno",   pts:43, pj:17, g:8,  e:2, p:7, gf:null, gc:null, dif:-9  },
+      { nombre:"Darío",  pts:40, pj:17, g:7,  e:2, p:8, gf:null, gc:null, dif:-5  },
+      { nombre:"Rubi",   pts:39, pj:16, g:7,  e:2, p:7, gf:null, gc:null, dif:14  },
+      { nombre:"Maxi",   pts:39, pj:14, g:8,  e:1, p:5, gf:null, gc:null, dif:13  },
+      { nombre:"Fede",   pts:38, pj:16, g:7,  e:1, p:8, gf:null, gc:null, dif:-19 },
+      { nombre:"Mati",   pts:33, pj:13, g:6,  e:2, p:5, gf:null, gc:null, dif:4   },
+      { nombre:"Lucas",  pts:28, pj:11, g:5,  e:2, p:4, gf:null, gc:null, dif:9   },
+      { nombre:"Coco",   pts:27, pj:11, g:5,  e:1, p:5, gf:null, gc:null, dif:-1  },
+      { nombre:"Marian", pts:17, pj:7,  g:3,  e:1, p:3, gf:null, gc:null, dif:1   },
+      { nombre:"Tincho", pts:15, pj:9,  g:2,  e:0, p:7, gf:null, gc:null, dif:-16 },
+      { nombre:"Aaron",  pts:7,  pj:3,  g:1,  e:1, p:1, gf:null, gc:null, dif:-2  },
+      { nombre:"Toro",   pts:7,  pj:4,  g:1,  e:0, p:3, gf:null, gc:null, dif:-7  },
+      { nombre:"Ale",    pts:1,  pj:1,  g:0,  e:0, p:1, gf:null, gc:null, dif:-4  },
+      { nombre:"Juan A.",pts:1,  pj:1,  g:0,  e:0, p:1, gf:null, gc:null, dif:-10 },
+    ]
+  },
+  {
+    nombre: "Apertura 2024",
+    tabla: [
+      { nombre:"Chivo",  pts:51, pj:16, g:11, e:2, p:3,  gf:null, gc:null, dif:24  },
+      { nombre:"Darío",  pts:46, pj:17, g:9,  e:2, p:6,  gf:null, gc:null, dif:-4  },
+      { nombre:"Fede",   pts:44, pj:18, g:8,  e:2, p:8,  gf:null, gc:null, dif:10  },
+      { nombre:"Mati",   pts:40, pj:17, g:7,  e:2, p:8,  gf:null, gc:null, dif:-5  },
+      { nombre:"Maxi",   pts:38, pj:16, g:7,  e:1, p:8,  gf:null, gc:null, dif:7   },
+      { nombre:"Rubi",   pts:34, pj:14, g:6,  e:2, p:6,  gf:null, gc:null, dif:5   },
+      { nombre:"Lucas",  pts:28, pj:12, g:5,  e:1, p:6,  gf:null, gc:null, dif:-15 },
+      { nombre:"Compi",  pts:21, pj:10, g:3,  e:2, p:5,  gf:null, gc:null, dif:-12 },
+      { nombre:"Toro",   pts:14, pj:7,  g:2,  e:1, p:4,  gf:null, gc:null, dif:-3  },
+      { nombre:"Nuno",   pts:13, pj:4,  g:3,  e:0, p:1,  gf:null, gc:null, dif:6   },
+      { nombre:"Coco",   pts:10, pj:6,  g:1,  e:1, p:4,  gf:null, gc:null, dif:-8  },
+      { nombre:"Ale",    pts:8,  pj:2,  g:2,  e:0, p:0,  gf:null, gc:null, dif:7   },
+      { nombre:"Tomás",  pts:5,  pj:2,  g:1,  e:0, p:1,  gf:null, gc:null, dif:2   },
+      { nombre:"Juan A.",pts:2,  pj:2,  g:0,  e:0, p:2,  gf:null, gc:null, dif:-5  },
+    ]
+  },
+  {
+    nombre: "Clausura 2023",
+    tabla: [
+      { nombre:"Maxi",   pts:26, pj:8, g:6, e:0, p:2, gf:null, gc:null, dif:20  },
+      { nombre:"Chivo",  pts:22, pj:7, g:5, e:0, p:2, gf:null, gc:null, dif:7   },
+      { nombre:"Fede",   pts:21, pj:9, g:4, e:0, p:5, gf:null, gc:null, dif:1   },
+      { nombre:"Darío",  pts:24, pj:9, g:5, e:0, p:4, gf:null, gc:null, dif:1   },
+      { nombre:"Mati",   pts:21, pj:9, g:4, e:0, p:5, gf:null, gc:null, dif:-7  },
+      { nombre:"Lucas",  pts:16, pj:7, g:3, e:0, p:4, gf:null, gc:null, dif:-14 },
+      { nombre:"Rubi",   pts:14, pj:5, g:3, e:0, p:2, gf:null, gc:null, dif:4   },
+      { nombre:"Compi",  pts:12, pj:6, g:2, e:0, p:4, gf:null, gc:null, dif:-11 },
+      { nombre:"Tomás",  pts:5,  pj:2, g:1, e:0, p:1, gf:null, gc:null, dif:2   },
+      { nombre:"Nuno",   pts:4,  pj:1, g:1, e:0, p:0, gf:null, gc:null, dif:3   },
+      { nombre:"Toro",   pts:4,  pj:1, g:1, e:0, p:0, gf:null, gc:null, dif:3   },
+      { nombre:"Juan A.",pts:1,  pj:1, g:0, e:0, p:1, gf:null, gc:null, dif:-2  },
+    ]
+  },
+];
 
 const tablaPosiciones = [
   // { nombre, pts, pj, g, e, p, gf, gc, forma: "V","E","D","" no jugó, "-" no estaba }
@@ -327,37 +471,6 @@ function camiseta(color, stroke) {
 
 const trofeoPlataSVG = `<span style="font-size:2rem;filter:grayscale(1) brightness(1.4) contrast(0.8);display:inline-block">🏆</span>`;
 
-// Tabla de posiciones
-const tablaOrdenada = [...tablaPosiciones].sort((a, b) => {
-  if (b.pts !== a.pts) return b.pts - a.pts;
-  const difA = a.gf - a.gc, difB = b.gf - b.gc;
-  if (difB !== difA) return difB - difA;
-  if (b.g !== a.g) return b.g - a.g;
-  if (b.e !== a.e) return b.e - a.e;
-  if (b.pj !== a.pj) return b.pj - a.pj;
-  const posGolA = goleadores.findIndex(g => g.nombre === a.nombre);
-  const posGolB = goleadores.findIndex(g => g.nombre === b.nombre);
-  const rankA = posGolA === -1 ? 999 : posGolA;
-  const rankB = posGolB === -1 ? 999 : posGolB;
-  return rankA - rankB;
-});
-document.querySelector('#tabla-posiciones tbody').innerHTML = tablaOrdenada.map((j, i) => {
-  const dif = j.gf - j.gc;
-  const badges = (j.forma||[]).map(r => {
-    if (r === 'V' || r === 'E' || r === 'D') return `<span class="badge badge-${r}">${r}</span>`;
-    return `<span class="badge badge-ausente">—</span>`;
-  }).join('');
-  const esLider = i === 0;
-  const cls = esLider ? ' class="lider"' : '';
-  return `<tr${cls}>
-    <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
-    <td><span class="pts">${j.pts}</span></td>
-    <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
-    <td>${j.gf}</td><td>${j.gc}</td><td>${dif>0?'+'+dif:dif}</td>
-    <td style="text-align:left;padding-left:8px;white-space:nowrap">${badges}</td>
-  </tr>`;
-}).join('');
-
 // Goleadores
 const maxGoles = goleadores[0].goles;
 document.getElementById('lista-goles').innerHTML = goleadores.map((j, i) => `
@@ -412,14 +525,94 @@ document.querySelector('#tabla-historica tbody').innerHTML = tablaHistorica.map(
     <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td><td>${j.dif}</td>
   </tr>`).join('');
 
+// Ordenar torneo actual
+const tablaOrdenada = [...tablaPosiciones].sort((a, b) => {
+  if (b.pts !== a.pts) return b.pts - a.pts;
+  const difA = a.gf - a.gc, difB = b.gf - b.gc;
+  if (difB !== difA) return difB - difA;
+  if (b.g !== a.g) return b.g - a.g;
+  if (b.e !== a.e) return b.e - a.e;
+  if (b.pj !== a.pj) return b.pj - a.pj;
+  const posGolA = goleadores.findIndex(g => g.nombre === a.nombre);
+  const posGolB = goleadores.findIndex(g => g.nombre === b.nombre);
+  return (posGolA === -1 ? 999 : posGolA) - (posGolB === -1 ? 999 : posGolB);
+});
+
 // Nav
 function mostrar(id, link) {
   document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
   document.querySelectorAll('nav a').forEach(a => a.classList.remove('activo'));
   document.getElementById(id).classList.add('activa');
   link.classList.add('activo');
+  cerrarDropdown();
   return false;
 }
+
+// Dropdown torneos
+function renderTablaTorneo(datos, nombre) {
+  document.getElementById('tabla-titulo').textContent = nombre;
+  const esCurrent = nombre === TORNEO_NOMBRE;
+  const hayForma = esCurrent;
+  const hayGF = datos[0] && datos[0].gf !== null;
+
+  // Actualizar header
+  const thead = document.querySelector('#tabla-posiciones thead tr');
+  thead.innerHTML = `<th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th>${hayGF?'<th>GF</th><th>GC</th><th>DIF</th>':'<th>DIF</th>'}${hayForma?'<th style="text-align:left;padding-left:8px;color:rgba(255,255,255,.3)">Fechas</th>':''}`;
+
+  document.querySelector('#tabla-posiciones tbody').innerHTML = datos.map((j, i) => {
+    const dif = j.dif !== null && j.dif !== undefined
+      ? (typeof j.dif === 'number' ? (j.dif > 0 ? '+'+j.dif : j.dif) : j.dif)
+      : (j.gf !== null && j.gc !== null ? (j.gf-j.gc > 0 ? '+'+(j.gf-j.gc) : j.gf-j.gc) : '-');
+    const esCampeon = i === 0;
+    const cls = esCampeon ? ' class="campeon-fila"' : '';
+    let badges = '';
+    if (hayForma) {
+      badges = (j.forma||[]).map(r => {
+        if (r === 'V' || r === 'E' || r === 'D') return `<span class="badge badge-${r}">${r}</span>`;
+        return `<span class="badge badge-ausente">—</span>`;
+      }).join('');
+    }
+    return `<tr${cls}>
+      <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
+      <td><span class="pts">${j.pts}</span></td>
+      <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
+      ${hayGF ? `<td>${j.gf}</td><td>${j.gc}</td>` : ''}
+      <td>${dif}</td>
+      ${hayForma ? `<td style="text-align:left;padding-left:8px;white-space:nowrap">${badges}</td>` : ''}
+    </tr>`;
+  }).join('');
+}
+
+function cerrarDropdown() {
+  document.getElementById('tabla-dropdown').style.display = 'none';
+}
+
+// Construir dropdown
+const dropdown = document.getElementById('tabla-dropdown');
+const itemActual = document.createElement('div');
+itemActual.className = 'dropdown-item actual';
+itemActual.textContent = TORNEO_NOMBRE;
+itemActual.onclick = () => { renderTablaTorneo(tablaOrdenada, TORNEO_NOMBRE); cerrarDropdown(); };
+dropdown.appendChild(itemActual);
+
+torneosAnteriores.forEach(t => {
+  const item = document.createElement('div');
+  item.className = 'dropdown-item';
+  item.textContent = t.nombre;
+  item.onclick = () => { renderTablaTorneo(t.tabla, t.nombre); cerrarDropdown(); };
+  dropdown.appendChild(item);
+});
+
+document.getElementById('nav-tabla').addEventListener('click', function(e) {
+  e.stopPropagation();
+  const dd = document.getElementById('tabla-dropdown');
+  dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+});
+
+document.addEventListener('click', cerrarDropdown);
+
+// Render inicial con torneo actual
+renderTablaTorneo(tablaOrdenada, TORNEO_NOMBRE);
 </script>
 </body>
 </html>
