@@ -563,8 +563,8 @@ function renderTablaTorneo(datos, nombre) {
     const dif = j.dif !== null && j.dif !== undefined
       ? (typeof j.dif === 'number' ? (j.dif > 0 ? '+'+j.dif : j.dif) : j.dif)
       : (j.gf !== null && j.gc !== null ? (j.gf-j.gc > 0 ? '+'+(j.gf-j.gc) : j.gf-j.gc) : '-');
-    const esCampeon = i === 0;
-    const cls = esCampeon ? ' class="campeon-fila"' : '';
+    const esCampeon = i === 0 && nombre !== TORNEO_NOMBRE;
+    const cls = esCampeon ? ' class="campeon-fila"' : (nombre === TORNEO_NOMBRE && i === 0 ? ' class="lider"' : '');
     let badges = '';
     if (hayForma) {
       badges = (j.forma||[]).map(r => {
