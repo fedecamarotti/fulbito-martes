@@ -368,34 +368,33 @@ const torneosAnteriores = [
 
 const tablaPosiciones = [
   // { nombre, pts, pj, g, e, p, gf, gc, forma: "V","E","D","-" no jugó/no estaba }
-  { nombre:"Chivo",   pts:12, pj:3, g:3, e:0, p:0, gf:37, gc:21, forma:["V","V","V"] },
-  { nombre:"Maxi",    pts:9,  pj:3, g:2, e:0, p:1, gf:36, gc:22, forma:["D","V","V"] },
-  { nombre:"Gaby",    pts:9,  pj:3, g:2, e:0, p:1, gf:30, gc:28, forma:["V","V","D"] },
-  { nombre:"Mati",    pts:9,  pj:3, g:2, e:0, p:1, gf:29, gc:29, forma:["V","D","V"] },
-  { nombre:"Rubi",    pts:8,  pj:2, g:2, e:0, p:0, gf:21, gc:13, forma:["V","-","V"] },
-  { nombre:"Darío",   pts:6,  pj:3, g:1, e:0, p:2, gf:28, gc:30, forma:["D","D","V"] },
-  { nombre:"Fede",    pts:6,  pj:3, g:1, e:0, p:2, gf:22, gc:36, forma:["V","D","D"] },
-  { nombre:"Aaron",   pts:5,  pj:2, g:1, e:0, p:1, gf:23, gc:16, forma:["D","V","-"] },
-  { nombre:"Yamil",   pts:5,  pj:2, g:1, e:0, p:1, gf:22, gc:21, forma:["-","V","D"] },
-  { nombre:"Toro",    pts:3,  pj:3, g:0, e:0, p:3, gf:21, gc:37, forma:["D","D","D"] },
-  { nombre:"Compi",   pts:1,  pj:1, g:0, e:0, p:1, gf:7,  gc:8,  forma:["D","-","-"] },
-  { nombre:"Mariano", pts:1,  pj:1, g:0, e:0, p:1, gf:6,  gc:13, forma:["-","-","D"] },
-  { nombre:"Alan",    pts:1,  pj:1, g:0, e:0, p:1, gf:8,  gc:16, forma:["-","D","-"] },
+  { nombre:"Chivo",   pts:16, pj:4, g:4, e:0, p:0, gf:50, gc:32, forma:["V","V","V","V"] },
+  { nombre:"Gaby",    pts:13, pj:4, g:3, e:0, p:1, gf:43, gc:39, forma:["V","V","D","V"] },
+  { nombre:"Rubi",    pts:12, pj:3, g:3, e:0, p:0, gf:34, gc:24, forma:["V","-","V","V"] },
+  { nombre:"Maxi",    pts:10, pj:4, g:2, e:0, p:2, gf:47, gc:35, forma:["D","V","V","D"] },
+  { nombre:"Mati",    pts:10, pj:4, g:2, e:0, p:2, gf:40, gc:42, forma:["V","D","V","D"] },
+  { nombre:"Fede",    pts:10, pj:4, g:2, e:0, p:2, gf:35, gc:47, forma:["V","D","D","V"] },
+  { nombre:"Darío",   pts:7,  pj:4, g:1, e:0, p:3, gf:39, gc:43, forma:["D","D","V","D"] },
+  { nombre:"Toro",    pts:7,  pj:4, g:1, e:0, p:3, gf:34, gc:48, forma:["D","D","D","V"] },
+  { nombre:"Yamil",   pts:6,  pj:3, g:1, e:0, p:2, gf:33, gc:34, forma:["-","V","D","D"] },
+  { nombre:"Aaron",   pts:5,  pj:2, g:1, e:0, p:1, gf:23, gc:16, forma:["D","V","-","-"] },
+  { nombre:"Compi",   pts:2,  pj:2, g:0, e:0, p:2, gf:18, gc:21, forma:["D","-","-","D"] },
+  { nombre:"Mariano", pts:1,  pj:1, g:0, e:0, p:1, gf:6,  gc:13, forma:["-","-","D","-"] },
+  { nombre:"Alan",    pts:1,  pj:1, g:0, e:0, p:1, gf:8,  gc:16, forma:["-","D","-","-"] },
 ];
 
 const goleadores = [
-  // { nombre, goles }
-  { nombre:"Rubi",    goles:11 },
-  { nombre:"Maxi",    goles:9  },
-  { nombre:"Gaby",    goles:8  },
-  { nombre:"Toro",    goles:7  },
+  { nombre:"Rubi",    goles:13 },
+  { nombre:"Gaby",    goles:13 },
+  { nombre:"Maxi",    goles:12 },
+  { nombre:"Toro",    goles:12 },
+  { nombre:"Darío",   goles:6  },
+  { nombre:"Yamil",   goles:6  },
   { nombre:"Aaron",   goles:5  },
-  { nombre:"Chivo",   goles:4  },
-  { nombre:"Darío",   goles:4  },
-  { nombre:"Yamil",   goles:4  },
+  { nombre:"Chivo",   goles:5  },
+  { nombre:"Mati",    goles:4  },
+  { nombre:"Compi",   goles:3  },
   { nombre:"Fede",    goles:2  },
-  { nombre:"Mati",    goles:2  },
-  { nombre:"Compi",   goles:1  },
   { nombre:"Alan",    goles:1  },
 ];
 
@@ -431,7 +430,17 @@ const fechas = [
     ]
   },
   {
-    titulo: "Fecha 4 — Próxima fecha",
+    titulo: "Fecha 4 — 7 Abr 2026",
+    partidos: [
+      {
+        local:    { equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Chivo, Gaby, Rubi, Fede, Toro" },
+        visitante:{ equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Maxi, Mati, Darío, Yamil, Compi" },
+        marcador: "13 - 11"
+      }
+    ]
+  },
+  {
+    titulo: "Fecha 5 — Próxima fecha",
     partidos: [
       {
         local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"—" },
@@ -462,13 +471,13 @@ const rankingCampeones = [
 
 const tablaHistorica = [
   // { nombre, pts, pj, g, e, p, dif }
-  { nombre:"Chivo",    pts:234, pj:95,  g:54, e:9,  p:32, dif:"+121" },
-  { nombre:"Maxi",     pts:208, pj:86,  g:47, e:7,  p:32, dif:"+93"  },
-  { nombre:"Fede",     pts:196, pj:85,  g:41, e:7,  p:37, dif:"-19"  },
-  { nombre:"Darío",    pts:178, pj:81,  g:38, e:8,  p:35, dif:"+10"  },
-  { nombre:"Mati",     pts:168, pj:84,  g:34, e:9,  p:41, dif:"-58"  },
-  { nombre:"Rubi",     pts:165, pj:80,  g:35, e:8,  p:37, dif:"-17"  },
-  { nombre:"Toro",     pts:100, pj:58,  g:20, e:6,  p:32, dif:"-66"  },
+  { nombre:"Chivo",    pts:238, pj:96,  g:55, e:9,  p:32, dif:"+123" },
+  { nombre:"Maxi",     pts:209, pj:87,  g:47, e:7,  p:33, dif:"+91"  },
+  { nombre:"Fede",     pts:200, pj:86,  g:42, e:7,  p:37, dif:"-17"  },
+  { nombre:"Darío",    pts:179, pj:82,  g:38, e:8,  p:36, dif:"+8"   },
+  { nombre:"Rubi",     pts:169, pj:81,  g:36, e:8,  p:37, dif:"-15"  },
+  { nombre:"Mati",     pts:169, pj:85,  g:34, e:9,  p:42, dif:"-60"  },
+  { nombre:"Toro",     pts:104, pj:59,  g:21, e:6,  p:32, dif:"-64"  },
   { nombre:"Lucas",    pts:81,  pj:34,  g:15, e:4,  p:15, dif:"-19"  },
   { nombre:"Aaron",    pts:73,  pj:34,  g:18, e:5,  p:11, dif:"+56"  },
   { nombre:"Nuno",     pts:60,  pj:22,  g:12, e:2,  p:8,  dif:"0"    },
@@ -476,12 +485,12 @@ const tablaHistorica = [
   { nombre:"Cócaro",   pts:48,  pj:23,  g:10, e:2,  p:11, dif:"-29"  },
   { nombre:"Nahue",    pts:43,  pj:18,  g:9,  e:3,  p:6,  dif:"+2"   },
   { nombre:"Juani",    pts:43,  pj:28,  g:8,  e:2,  p:18, dif:"-63"  },
-  { nombre:"Compi",    pts:36,  pj:20,  g:5,  e:2,  p:13, dif:"-38"  },
-  { nombre:"Gaby",     pts:34,  pj:17,  g:10, e:1,  p:6,  dif:"+31"  },
+  { nombre:"Gaby",     pts:38,  pj:18,  g:11, e:1,  p:6,  dif:"+33"  },
+  { nombre:"Compi",    pts:37,  pj:21,  g:5,  e:2,  p:14, dif:"-40"  },
   { nombre:"Tomi rnr", pts:21,  pj:9,   g:7,  e:0,  p:2,  dif:"+34"  },
   { nombre:"Valen",    pts:18,  pj:8,   g:6,  e:0,  p:2,  dif:"+40"  },
   { nombre:"Juan A.",  pts:13,  pj:6,   g:4,  e:1,  p:1,  dif:"+16"  },
-  { nombre:"Yamil",    pts:5,   pj:2,   g:1,  e:0,  p:1,  dif:"+1"   },
+  { nombre:"Yamil",    pts:6,   pj:3,   g:1,  e:0,  p:2,  dif:"-1"   },
   { nombre:"Alan",     pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-8"   },
   { nombre:"Mariano",  pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-7"   },
 ];
