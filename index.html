@@ -874,25 +874,31 @@ function updateCalcTabla() {
     const st = calcState[f.id];
     const sR = parseInt(st.scoreRosa) || 0;
     const sN = parseInt(st.scoreNegro) || 0;
-    if (sR === 0 && sN === 0) return; // sin resultado ingresado
-
-    const ganadorRosa = sR > sN;
-    const ganadorNegro = sN > sR;
 
     const jugadoresRosa = st.rosa.map(n => n.trim()).filter(Boolean);
     const jugadoresNegro = st.negro.map(n => n.trim()).filter(Boolean);
 
-    jugadoresRosa.forEach(nombre => {
+    // 1 punto de asistencia por solo aparecer en el desplegable
+    [...jugadoresRosa, ...jugadoresNegro].forEach(nombre => {
       if (!(nombre in pts)) pts[nombre] = 0;
-      if (ganadorRosa) pts[nombre] += 3;
-      else if (!ganadorNegro) pts[nombre] += 1; // empate
-      // derrota: +0
+      pts[nombre] += 1;
     });
-    jugadoresNegro.forEach(nombre => {
-      if (!(nombre in pts)) pts[nombre] = 0;
-      if (ganadorNegro) pts[nombre] += 3;
-      else if (!ganadorRosa) pts[nombre] += 1;
-    });
+
+    // Puntos por resultado solo si hay marcador ingresado
+    if (sR > 0 || sN > 0) {
+      const ganadorRosa = sR > sN;
+      const ganadorNegro = sN > sR;
+      const empate = sR === sN;
+
+      jugadoresRosa.forEach(nombre => {
+        if (ganadorRosa) pts[nombre] += 3;
+        else if (empate) pts[nombre] += 1;
+      });
+      jugadoresNegro.forEach(nombre => {
+        if (ganadorNegro) pts[nombre] += 3;
+        else if (empate) pts[nombre] += 1;
+      });
+    }
   });
 
   // Ordenar y renderizar
