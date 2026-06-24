@@ -95,6 +95,24 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 .campeon-fila .equipo-nombre{color:#f5c040}
 .campeon-fila .pos-num{color:#f5c040}
 .campeon-fila .pts{color:#f5c040}
+/* CALCULADORA */
+.calc-fecha-bloque{background:rgba(10,22,64,.8);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px 18px;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.calc-fecha-titulo{font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--verde-claro);opacity:.8;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.calc-equipos{display:grid;grid-template-columns:1fr 20px 1fr;gap:10px;align-items:start}
+.calc-equipo-label{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:8px}
+.calc-equipo-label.rosa{color:#e87aaa}
+.calc-equipo-label.negro{color:#aab4cc;text-align:right}
+.calc-jugadores{display:flex;flex-direction:column;gap:5px}
+.calc-jugadores.negro{align-items:flex-end}
+.calc-input{background:rgba(6,13,46,.7);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:5px 9px;color:var(--blanco);font-family:'Outfit',sans-serif;font-size:.78rem;width:100%;outline:none;transition:border-color .2s;appearance:none;cursor:pointer}
+.calc-input:focus{border-color:rgba(0,229,255,.4)}
+.calc-input option{background:#060d2e;color:var(--blanco)}
+.calc-input.negro{text-align:right;direction:rtl}
+.calc-input.negro option{direction:ltr}
+.calc-marcador-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:24px}
+.calc-score{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:4px 8px;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;color:var(--verde-claro);width:44px;text-align:center;outline:none}
+.calc-score:focus{border-color:rgba(0,229,255,.4)}
+.calc-guion{color:rgba(255,255,255,.3);font-family:'Space Grotesk',sans-serif;font-size:.9rem}
 </style>
 </head>
 <body>
@@ -111,6 +129,7 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
       <a href="#" class="activo" onclick="return mostrar('tabla',this)" id="nav-tabla">📊 Tabla</a>
       <div id="tabla-dropdown" style="display:none;position:absolute;top:100%;left:0;background:rgba(6,13,46,.98);border:1px solid rgba(0,229,255,.2);border-radius:0 0 8px 8px;min-width:200px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.5)"></div>
     </li>
+    <li><a href="#" onclick="return mostrar('calculadora',this)">🔢 Calculadora</a></li>
     <li><a href="#" onclick="return mostrar('goleadores',this)">⚽ Goleadores</a></li>
     <li><a href="#" onclick="return mostrar('fechas',this)">📅 Fechas</a></li>
     <li><a href="#" onclick="return mostrar('historica',this)">🏆 Campeones</a></li>
@@ -127,6 +146,16 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
       <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th><th style="text-align:left;padding-left:8px;color:rgba(255,255,255,.3)">Fechas</th></tr></thead>
       <tbody></tbody>
     </table></div>
+  </section>
+
+  <section id="calculadora" class="seccion">
+    <div class="seccion-titulo">Calculadora de Escenarios</div>
+    <div id="calc-fechas" style="display:flex;flex-direction:column;gap:20px;margin-bottom:28px;max-width:540px;margin-left:auto;margin-right:auto"></div>
+    <div class="seccion-titulo" style="margin-top:4px">Tabla Proyectada</div>
+    <div style="display:flex;justify-content:center"><div class="tabla-container" style="width:260px"><table id="calc-tabla" style="width:100%">
+      <thead><tr><th style="text-align:center;padding:8px 6px 8px 10px;font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.5)">#</th><th style="text-align:left;padding:8px 6px;font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.5)">Jugador</th><th style="padding:8px 10px 8px 6px;font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.5);text-align:center">PTS</th></tr></thead>
+      <tbody id="calc-tabla-body"></tbody>
+    </table></div></div>
   </section>
 
   <section id="goleadores" class="seccion">
@@ -768,6 +797,122 @@ torneosAnteriores.forEach(t => {
 
 // Render inicial con torneo actual
 renderTablaTorneo(tablaOrdenada, TORNEO_NOMBRE);
+
+// ============================================================
+// CALCULADORA DE ESCENARIOS
+// ============================================================
+const CALC_FECHAS = [
+  { id: 'f16', titulo: 'Fecha 16' },
+  { id: 'f17', titulo: 'Fecha 17' },
+  { id: 'f18', titulo: 'Fecha 18' },
+];
+
+// Estado de la calculadora
+const calcState = {
+  f16: { rosa: ['','','','',''], negro: ['','','','',''], scoreRosa: '', scoreNegro: '' },
+  f17: { rosa: ['','','','',''], negro: ['','','','',''], scoreRosa: '', scoreNegro: '' },
+  f18: { rosa: ['','','','',''], negro: ['','','','',''], scoreRosa: '', scoreNegro: '' },
+};
+
+const calcJugadores = [...tablaPosiciones].map(j => j.nombre).sort((a,b) => a.localeCompare(b));
+
+function renderCalcFechas() {
+  const wrap = document.getElementById('calc-fechas');
+  wrap.innerHTML = CALC_FECHAS.map(f => `
+    <div class="calc-fecha-bloque">
+      <div class="calc-fecha-titulo">${f.titulo}</div>
+      <div class="calc-equipos">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div class="calc-equipo-label rosa" style="margin-bottom:0">🟣 Rosa</div>
+            <input class="calc-score" data-fecha="${f.id}" data-tipo="scoreRosa" placeholder="0" value="${calcState[f.id].scoreRosa}">
+          </div>
+          <div class="calc-jugadores">
+            ${[0,1,2,3,4].map(i => `<select class="calc-input" data-fecha="${f.id}" data-equipo="rosa" data-idx="${i}"><option value="">— Jugador ${i+1} —</option>${calcJugadores.map(n=>`<option value="${n}" ${calcState[f.id].rosa[i]===n?'selected':''}>${n}</option>`).join('')}</select>`).join('')}
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;padding-top:4px">
+          <span class="calc-guion">—</span>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <input class="calc-score" data-fecha="${f.id}" data-tipo="scoreNegro" placeholder="0" value="${calcState[f.id].scoreNegro}">
+            <div class="calc-equipo-label negro" style="margin-bottom:0;text-align:right">Negro ⚫</div>
+          </div>
+          <div class="calc-jugadores negro">
+            ${[0,1,2,3,4].map(i => `<select class="calc-input negro" data-fecha="${f.id}" data-equipo="negro" data-idx="${i}"><option value="">— Jugador ${i+1} —</option>${calcJugadores.map(n=>`<option value="${n}" ${calcState[f.id].negro[i]===n?'selected':''}>${n}</option>`).join('')}</select>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Eventos
+  wrap.querySelectorAll('.calc-input').forEach(input => {
+    input.addEventListener('change', e => {
+      const { fecha, equipo, idx } = e.target.dataset;
+      calcState[fecha][equipo][+idx] = e.target.value;
+      updateCalcTabla();
+    });
+  });
+  wrap.querySelectorAll('.calc-score').forEach(input => {
+    input.addEventListener('input', e => {
+      const { fecha, tipo } = e.target.dataset;
+      calcState[fecha][tipo] = e.target.value;
+      updateCalcTabla();
+    });
+  });
+}
+
+function updateCalcTabla() {
+  // Copiar puntos actuales
+  const pts = {};
+  tablaPosiciones.forEach(j => { pts[j.nombre] = j.pts; });
+
+  // Para cada fecha calculada, determinar resultado y sumar puntos
+  CALC_FECHAS.forEach(f => {
+    const st = calcState[f.id];
+    const sR = parseInt(st.scoreRosa) || 0;
+    const sN = parseInt(st.scoreNegro) || 0;
+    if (sR === 0 && sN === 0) return; // sin resultado ingresado
+
+    const ganadorRosa = sR > sN;
+    const ganadorNegro = sN > sR;
+
+    const jugadoresRosa = st.rosa.map(n => n.trim()).filter(Boolean);
+    const jugadoresNegro = st.negro.map(n => n.trim()).filter(Boolean);
+
+    jugadoresRosa.forEach(nombre => {
+      if (!(nombre in pts)) pts[nombre] = 0;
+      if (ganadorRosa) pts[nombre] += 3;
+      else if (!ganadorNegro) pts[nombre] += 1; // empate
+      // derrota: +0
+    });
+    jugadoresNegro.forEach(nombre => {
+      if (!(nombre in pts)) pts[nombre] = 0;
+      if (ganadorNegro) pts[nombre] += 3;
+      else if (!ganadorRosa) pts[nombre] += 1;
+    });
+  });
+
+  // Ordenar y renderizar
+  const sorted = Object.entries(pts).sort((a,b) => b[1] - a[1]);
+  document.getElementById('calc-tabla-body').innerHTML = sorted.map(([nombre, p], i) => {
+    const original = tablaPosiciones.find(j => j.nombre === nombre);
+    const originalPts = original ? original.pts : 0;
+    const diff = p - originalPts;
+    const diffStr = diff > 0 ? `<span style="color:#3dba74;font-size:.72rem;margin-left:4px">+${diff}</span>` : '';
+    const isLider = i === 0;
+    return `<tr style="${isLider ? 'background:rgba(0,229,255,.04)' : ''}">
+      <td style="padding:7px 6px 7px 10px;color:rgba(255,255,255,.3);font-size:.75rem;text-align:center">${i+1}</td>
+      <td style="padding:7px 6px;text-align:left;font-family:'Outfit',sans-serif;font-weight:600;font-size:.88rem;color:${isLider ? 'var(--verde-claro)' : 'var(--blanco)'}">${nombre}</td>
+      <td style="padding:7px 10px 7px 6px;text-align:center"><span style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--verde-claro)">${p}</span>${diffStr}</td>
+    </tr>`;
+  }).join('');
+}
+
+renderCalcFechas();
+updateCalcTabla();
 </script>
 </body>
 </html>
