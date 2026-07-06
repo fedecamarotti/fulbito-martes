@@ -40,7 +40,6 @@ tbody td:nth-child(7),tbody td:nth-child(8){padding-left:3px;padding-right:3px;c
 .pos-num{font-family:'Outfit',sans-serif;font-weight:500;color:rgba(255,255,255,.3);font-size:.75rem;margin-right:8px;min-width:14px}
 .equipo-nombre{font-family:'Outfit',sans-serif;font-weight:600;font-size:.88rem;color:var(--blanco)}
 .pts{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--verde-claro)}
-.lider td{background:rgba(0,229,255,.04)}
 .lider .equipo-nombre{color:var(--verde-claro)}
 .lider .pos-num{color:var(--verde-claro)}
 .badge{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:3px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.58rem;letter-spacing:0}
@@ -92,7 +91,9 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 .btn-torneo{background:rgba(10,22,64,.8);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 14px;color:rgba(255,255,255,.6);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.5px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .btn-torneo:hover{border-color:rgba(0,229,255,.4);color:var(--verde-claro)}
 .btn-torneo.activo{border-color:var(--verde-claro);color:var(--verde-claro);background:rgba(0,229,255,.06)}
-.campeon-fila .equipo-nombre{color:#f5c040}
+#tabla-posiciones tbody tr{cursor:pointer;user-select:none}
+#tabla-posiciones tbody tr.tap-azul{background:rgba(0,180,255,.13)!important}
+#tabla-posiciones tbody tr.tap-rosa{background:rgba(232,90,160,.13)!important}
 .campeon-fila .pos-num{color:#f5c040}
 .campeon-fila .pts{color:#f5c040}
 /* CALCULADORA */
@@ -796,6 +797,28 @@ torneosAnteriores.forEach(t => {
 
 // Render inicial con torneo actual
 renderTablaTorneo(tablaOrdenada, TORNEO_NOMBRE);
+
+// Tap cycle en filas de tabla: normal → azul → rosa → normal
+function cicloFila(tr) {
+  const estado = parseInt(tr.dataset.tapEstado || '0');
+  const siguiente = estado >= 2 ? 0 : estado + 1;
+  tr.dataset.tapEstado = siguiente;
+  tr.classList.remove('tap-azul', 'tap-rosa');
+  if (siguiente === 1) tr.classList.add('tap-azul');
+  else if (siguiente === 2) tr.classList.add('tap-rosa');
+}
+const tbodyTabla = document.querySelector('#tabla-posiciones tbody');
+tbodyTabla.addEventListener('touchend', e => {
+  const tr = e.target.closest('tr');
+  if (!tr) return;
+  e.preventDefault();
+  cicloFila(tr);
+});
+tbodyTabla.addEventListener('click', e => {
+  const tr = e.target.closest('tr');
+  if (!tr || tr.dataset.touchHandled) return;
+  cicloFila(tr);
+});
 </script>
 </body>
 </html>
