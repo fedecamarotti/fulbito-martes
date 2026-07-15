@@ -91,7 +91,14 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 .btn-torneo{background:rgba(10,22,64,.8);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 14px;color:rgba(255,255,255,.6);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.5px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .btn-torneo:hover{border-color:rgba(0,229,255,.4);color:var(--verde-claro)}
 .btn-torneo.activo{border-color:var(--verde-claro);color:var(--verde-claro);background:rgba(0,229,255,.06)}
-#tabla-posiciones tbody tr{cursor:pointer;user-select:none}
+.campeon-fila td{background:linear-gradient(90deg,rgba(245,192,64,.08),rgba(245,192,64,.02))!important}
+.campeon-fila .equipo-nombre{color:#f5c040!important}
+.campeon-fila .pos-num{color:#f5c040!important}
+.campeon-fila .pts{color:#f5c040!important}
+.corona-icon{font-size:.85rem;margin-right:3px}
+.goleador-campeon{background:linear-gradient(90deg,rgba(245,192,64,.07),rgba(245,192,64,.02))!important;border-color:rgba(245,192,64,.2)!important}
+.gol-campeon{color:#f5c040!important}
+.gol-bar-campeon{background:linear-gradient(90deg,#f5c040,#e0a020)!important}
 #tabla-posiciones tbody tr.tap-azul{background:rgba(0,180,255,.13)!important}
 #tabla-posiciones tbody tr.tap-rosa{background:rgba(232,90,160,.13)!important}
 .campeon-fila .pos-num{color:#f5c040}
@@ -387,41 +394,41 @@ const torneosAnteriores = [
 
 const tablaPosiciones = [
   // { nombre, pts, pj, g, e, p, gf, gc, forma: "V","E","D","-" no jugó/no estaba }
-  { nombre:"Chivo",   pts:49, pj:17, g:11, e:1, p:5,  gf:191, gc:173, sanciones:2, forma:["V","V","V","V","D","V","D","V","D","V","V","V","D","V","V","D","E"] },
-  { nombre:"Fede",    pts:46, pj:15, g:10, e:1, p:4,  gf:165, gc:152, forma:["V","D","D","V","V","D","V","V","-","D","-","V","V","V","V","V","E"] },
-  { nombre:"Maxi",    pts:44, pj:16, g:9,  e:1, p:6,  gf:187, gc:156, forma:["D","V","V","D","V","V","-","D","V","V","D","V","V","D","D","V","E"] },
-  { nombre:"Rubi",    pts:40, pj:15, g:8,  e:1, p:6,  gf:160, gc:163, forma:["V","-","V","V","D","V","V","D","V","D","D","D","-","V","D","V","E"] },
-  { nombre:"Mati",    pts:39, pj:17, g:7,  e:1, p:9,  gf:177, gc:187, forma:["V","D","V","D","D","D","V","V","D","V","V","D","D","D","V","D","E"] },
-  { nombre:"Darío",   pts:32, pj:13, g:6,  e:1, p:6,  gf:141, gc:134, forma:["D","D","V","D","D","V","D","-","V","-","D","-","V","V","V","-","E"] },
-  { nombre:"Yamil",   pts:31, pj:15, g:5,  e:1, p:9,  gf:168, gc:166, forma:["-","V","D","D","V","-","D","V","D","D","V","D","V","D","D","D","E"] },
-  { nombre:"Luchito", pts:25, pj:9,  g:5,  e:1, p:3,  gf:100, gc:92,  forma:["-","-","-","-","-","V","D","V","V","V","D","V","D","-","-","-","E"] },
-  { nombre:"Aaron",   pts:23, pj:8,  g:5,  e:0, p:3,  gf:98,  gc:80,  forma:["D","V","-","-","-","-","D","-","D","V","-","-","-","V","V","V","-"] },
-  { nombre:"Toro",    pts:21, pj:12, g:3,  e:0, p:9,  gf:112, gc:153, forma:["D","D","D","V","-","-","V","D","D","D","V","D","D","-","D","-","-"] },
-  { nombre:"Gaby",    pts:18, pj:6,  g:4,  e:0, p:2,  gf:64,  gc:57,  forma:["V","V","D","V","V","D","-","-","-","-","-","-","-","-","-","-","-"] },
-  { nombre:"Compi",   pts:14, pj:8,  g:2,  e:0, p:6,  gf:79,  gc:99,  forma:["D","-","-","D","D","-","-","-","V","D","-","V","D","D","-","-","-"] },
-  { nombre:"Cócaro",  pts:12, pj:5,  g:2,  e:1, p:2,  gf:54,  gc:51,  forma:["-","-","-","-","-","-","-","-","-","-","V","D","-","-","D","V","E"] },
-  { nombre:"Alan",    pts:10, pj:4,  g:2,  e:0, p:2,  gf:38,  gc:41,  forma:["-","D","-","-","-","-","V","-","-","-","-","-","V","-","-","D","-"] },
-  { nombre:"Juani",   pts:9,  pj:5,  g:1,  e:1, p:3,  gf:50,  gc:51,  forma:["-","-","-","-","V","D","-","-","-","-","D","-","-","D","-","-","E"] },
-  { nombre:"Coco",    pts:2,  pj:2,  g:0,  e:0, p:2,  gf:15,  gc:27,  forma:["-","-","-","-","-","-","-","D","-","-","-","-","-","-","-","D","-"] },
-  { nombre:"Tincho",  pts:1,  pj:1,  g:0,  e:0, p:1,  gf:6,   gc:9,   forma:["-","-","-","-","-","D","-","-","-","-","-","-","-","-","-","-","-"] },
-  { nombre:"Javi",    pts:1,  pj:1,  g:0,  e:0, p:1,  gf:9,   gc:16,  forma:["-","-","-","-","-","-","-","D","-","-","-","-","-","-","-","-","-"] },
-  { nombre:"Mariano", pts:1,  pj:1,  g:0,  e:0, p:1,  gf:6,   gc:13,  forma:["-","-","D","-","-","-","-","-","-","-","-","-","-","-","-","-","-"] },
+  { nombre:"Chivo",   pts:53, pj:18, g:12, e:1, p:5,  gf:203, gc:182, sanciones:2, campeon:true, forma:["V","V","V","V","D","V","D","V","D","V","V","V","D","V","V","D","E","V"] },
+  { nombre:"Maxi",    pts:48, pj:17, g:10, e:1, p:6,  gf:199, gc:165, forma:["D","V","V","D","V","V","-","D","V","V","D","V","V","D","D","V","E","V"] },
+  { nombre:"Fede",    pts:47, pj:16, g:10, e:1, p:5,  gf:174, gc:164, forma:["V","D","D","V","V","D","V","V","-","D","-","V","V","V","V","V","E","D"] },
+  { nombre:"Mati",    pts:43, pj:18, g:8,  e:1, p:9,  gf:189, gc:196, forma:["V","D","V","D","D","D","V","V","D","V","V","D","D","D","V","D","E","V"] },
+  { nombre:"Rubi",    pts:41, pj:16, g:8,  e:1, p:7,  gf:169, gc:175, forma:["V","-","V","V","D","V","V","D","V","D","D","D","-","V","D","V","E","D"] },
+  { nombre:"Yamil",   pts:35, pj:16, g:6,  e:1, p:9,  gf:180, gc:175, forma:["-","V","D","D","V","-","D","V","D","D","V","D","V","D","D","D","E","V"] },
+  { nombre:"Darío",   pts:33, pj:14, g:6,  e:1, p:7,  gf:150, gc:146, forma:["D","D","V","D","D","V","D","-","V","-","D","-","V","V","V","-","E","D"] },
+  { nombre:"Luchito", pts:25, pj:9,  g:5,  e:1, p:3,  gf:100, gc:92,  forma:["-","-","-","-","-","V","D","V","V","V","D","V","D","-","-","-","E","-"] },
+  { nombre:"Toro",    pts:25, pj:13, g:4,  e:0, p:9,  gf:124, gc:162, forma:["D","D","D","V","-","-","V","D","D","D","V","D","D","-","D","-","-","V"] },
+  { nombre:"Aaron",   pts:24, pj:9,  g:5,  e:0, p:4,  gf:107, gc:92,  forma:["D","V","-","-","-","-","D","-","D","V","-","-","-","V","V","V","-","D"] },
+  { nombre:"Gaby",    pts:18, pj:6,  g:4,  e:0, p:2,  gf:64,  gc:57,  forma:["V","V","D","V","V","D","-","-","-","-","-","-","-","-","-","-","-","-"] },
+  { nombre:"Compi",   pts:14, pj:8,  g:2,  e:0, p:6,  gf:79,  gc:99,  forma:["D","-","-","D","D","-","-","-","V","D","-","V","D","D","-","-","-","-"] },
+  { nombre:"Cócaro",  pts:13, pj:6,  g:2,  e:1, p:3,  gf:63,  gc:63,  forma:["-","-","-","-","-","-","-","-","-","-","V","D","-","-","D","V","E","D"] },
+  { nombre:"Alan",    pts:10, pj:4,  g:2,  e:0, p:2,  gf:38,  gc:41,  forma:["-","D","-","-","-","-","V","-","-","-","-","-","V","-","-","D","-","-"] },
+  { nombre:"Juani",   pts:9,  pj:5,  g:1,  e:1, p:3,  gf:50,  gc:51,  forma:["-","-","-","-","V","D","-","-","-","-","D","-","-","D","-","-","E","-"] },
+  { nombre:"Coco",    pts:2,  pj:2,  g:0,  e:0, p:2,  gf:15,  gc:27,  forma:["-","-","-","-","-","-","-","D","-","-","-","-","-","-","-","D","-","-"] },
+  { nombre:"Tincho",  pts:1,  pj:1,  g:0,  e:0, p:1,  gf:6,   gc:9,   forma:["-","-","-","-","-","D","-","-","-","-","-","-","-","-","-","-","-","-"] },
+  { nombre:"Javi",    pts:1,  pj:1,  g:0,  e:0, p:1,  gf:9,   gc:16,  forma:["-","-","-","-","-","-","-","D","-","-","-","-","-","-","-","-","-","-"] },
+  { nombre:"Mariano", pts:1,  pj:1,  g:0,  e:0, p:1,  gf:6,   gc:13,  forma:["-","-","D","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-"] },
 ];
 
 const goleadores = [
-  { nombre:"Maxi",    goles:50 },
-  { nombre:"Rubi",    goles:41 },
-  { nombre:"Chivo",   goles:38 },
-  { nombre:"Yamil",   goles:38 },
-  { nombre:"Toro",    goles:37 },
-  { nombre:"Fede",    goles:26 },
-  { nombre:"Darío",   goles:24 },
+  { nombre:"Maxi",    goles:52, campeon:true },
+  { nombre:"Rubi",    goles:44 },
+  { nombre:"Chivo",   goles:42 },
+  { nombre:"Yamil",   goles:42 },
+  { nombre:"Toro",    goles:39 },
+  { nombre:"Fede",    goles:27 },
+  { nombre:"Darío",   goles:26 },
   { nombre:"Mati",    goles:24 },
   { nombre:"Gaby",    goles:24 },
-  { nombre:"Aaron",   goles:13 },
+  { nombre:"Aaron",   goles:14 },
   { nombre:"Luchito", goles:13 },
   { nombre:"Compi",   goles:12 },
-  { nombre:"Cócaro",  goles:8  },
+  { nombre:"Cócaro",  goles:10 },
   { nombre:"Alan",    goles:5  },
   { nombre:"Coco",    goles:3  },
   { nombre:"Juani",   goles:2  },
@@ -601,30 +608,30 @@ const fechas = [
     ]
   },
   {
-    titulo: "Fecha 18 — Próxima fecha",
+    titulo: "Fecha 18 — 14 Jul 2026",
     partidos: [
       {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"—" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"—" },
-        marcador: null
+        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Aaron, Cócaro, Rubi, Darío" },
+        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Toro, Maxi, Chivo, Yamil, Mati" },
+        marcador: "9 - 12"
       }
     ]
   },
 ];
 
 const campeones = [
-  { anio:2026, tipo:"Apertura",    nombre:"—",    trofeo:"🏆" },
-  { anio:2026, tipo:"Copa Verano", nombre:"Mati", trofeo:"plata" },
-  { anio:2025, tipo:"Clausura",    nombre:"Chivo",trofeo:"🏆" },
-  { anio:2025, tipo:"Apertura",    nombre:"Chivo",trofeo:"🏆" },
-  { anio:2024, tipo:"Clausura",    nombre:"Chivo",trofeo:"🏆" },
-  { anio:2024, tipo:"Apertura",    nombre:"Chivo",trofeo:"🏆" },
-  { anio:2024, tipo:"Copa Verano",  nombre:"Fede",trofeo:"plata" },
-  { anio:2023, tipo:"Clausura",    nombre:"Maxi", trofeo:"🏆" },
+  { anio:2026, tipo:"Apertura",    nombre:"Chivo", trofeo:"🏆" },
+  { anio:2026, tipo:"Copa Verano", nombre:"Mati",  trofeo:"plata" },
+  { anio:2025, tipo:"Clausura",    nombre:"Chivo", trofeo:"🏆" },
+  { anio:2025, tipo:"Apertura",    nombre:"Chivo", trofeo:"🏆" },
+  { anio:2024, tipo:"Clausura",    nombre:"Chivo", trofeo:"🏆" },
+  { anio:2024, tipo:"Apertura",    nombre:"Chivo", trofeo:"🏆" },
+  { anio:2024, tipo:"Copa Verano", nombre:"Fede",  trofeo:"plata" },
+  { anio:2023, tipo:"Clausura",    nombre:"Maxi",  trofeo:"🏆" },
 ];
 
 const rankingCampeones = [
-  { nombre:"Chivo", trofeos:["🏆","🏆","🏆","🏆"] },
+  { nombre:"Chivo", trofeos:["🏆","🏆","🏆","🏆","🏆"] },
   { nombre:"Maxi",  trofeos:["🏆"] },
   { nombre:"Fede",  trofeos:["plata"] },
   { nombre:"Mati",  trofeos:["plata"] },
@@ -632,23 +639,23 @@ const rankingCampeones = [
 
 const tablaHistorica = [
   // { nombre, pts, pj, g, e, p, dif }
-  { nombre:"Chivo",    pts:271, pj:109, g:62, e:10, p:37, dif:"+123" },
-  { nombre:"Maxi",     pts:243, pj:99,  g:54, e:8,  p:37, dif:"+110" },
-  { nombre:"Fede",     pts:236, pj:97,  g:50, e:8,  p:39, dif:"+8"   },
-  { nombre:"Darío",    pts:204, pj:91,  g:43, e:9,  p:39, dif:"+19"  },
-  { nombre:"Mati",     pts:198, pj:98,  g:39, e:10, p:49, dif:"-68"  },
-  { nombre:"Rubi",     pts:197, pj:93,  g:41, e:9,  p:43, dif:"-28"  },
-  { nombre:"Toro",     pts:118, pj:67,  g:23, e:6,  p:38, dif:"-91"  },
-  { nombre:"Aaron",    pts:91,  pj:40,  g:22, e:5,  p:13, dif:"+67"  },
+  { nombre:"Chivo",    pts:275, pj:110, g:63, e:10, p:37, dif:"+126" },
+  { nombre:"Maxi",     pts:247, pj:100, g:55, e:8,  p:37, dif:"+113" },
+  { nombre:"Fede",     pts:237, pj:98,  g:50, e:8,  p:40, dif:"+5"   },
+  { nombre:"Darío",    pts:205, pj:92,  g:43, e:9,  p:40, dif:"+16"  },
+  { nombre:"Mati",     pts:202, pj:99,  g:40, e:10, p:49, dif:"-65"  },
+  { nombre:"Rubi",     pts:198, pj:94,  g:41, e:9,  p:44, dif:"-31"  },
+  { nombre:"Toro",     pts:122, pj:68,  g:24, e:6,  p:38, dif:"-88"  },
+  { nombre:"Aaron",    pts:92,  pj:41,  g:22, e:5,  p:14, dif:"+64"  },
   { nombre:"Lucas",    pts:81,  pj:34,  g:15, e:4,  p:15, dif:"-19"  },
+  { nombre:"Cócaro",   pts:61,  pj:29,  g:12, e:3,  p:14, dif:"-29"  },
   { nombre:"Nuno",     pts:60,  pj:22,  g:12, e:2,  p:8,  dif:"0"    },
-  { nombre:"Cócaro",   pts:60,  pj:28,  g:12, e:3,  p:13, dif:"-26"  },
   { nombre:"Coco",     pts:60,  pj:34,  g:11, e:4,  p:19, dif:"-58"  },
   { nombre:"Juani",    pts:52,  pj:33,  g:9,  e:3,  p:21, dif:"-64"  },
   { nombre:"Compi",    pts:49,  pj:27,  g:7,  e:2,  p:18, dif:"-57"  },
   { nombre:"Gaby",     pts:43,  pj:20,  g:12, e:1,  p:7,  dif:"+36"  },
   { nombre:"Nahue",    pts:43,  pj:18,  g:9,  e:3,  p:6,  dif:"+2"   },
-  { nombre:"Yamil",    pts:31,  pj:15,  g:5,  e:1,  p:9,  dif:"+2"   },
+  { nombre:"Yamil",    pts:35,  pj:16,  g:6,  e:1,  p:9,  dif:"+5"   },
   { nombre:"Luchito",  pts:25,  pj:9,   g:5,  e:1,  p:3,  dif:"+8"   },
   { nombre:"Tomi rnr", pts:21,  pj:9,   g:7,  e:0,  p:2,  dif:"+34"  },
   { nombre:"Valen",    pts:18,  pj:8,   g:6,  e:0,  p:2,  dif:"+40"  },
@@ -671,13 +678,13 @@ const trofeoPlataSVG = `<span style="font-size:2rem;filter:grayscale(1) brightne
 // Goleadores
 const maxGoles = goleadores[0].goles;
 document.getElementById('lista-goles').innerHTML = goleadores.map((j, i) => `
-  <div class="goleador-card" style="animation-delay:${i*.07}s">
+  <div class="goleador-card${j.campeon ? ' goleador-campeon' : ''}" style="animation-delay:${i*.07}s">
     <div class="gol-pos${i===0?' top':''}">${i+1}</div>
     <div class="gol-info">
-      <div class="gol-nombre">${j.nombre}</div>
-      <div class="gol-bar-wrap"><div class="gol-bar" style="width:${Math.round(j.goles/maxGoles*100)}%"></div></div>
+      <div class="gol-nombre${j.campeon ? ' gol-campeon' : ''}">${j.campeon ? '⚽👑 ' : ''}${j.nombre}</div>
+      <div class="gol-bar-wrap"><div class="gol-bar${j.campeon ? ' gol-bar-campeon' : ''}" style="width:${Math.round(j.goles/maxGoles*100)}%"></div></div>
     </div>
-    <div><div class="gol-cantidad">${j.goles}</div><div class="gol-label">goles</div></div>
+    <div><div class="gol-cantidad${j.campeon ? ' gol-campeon' : ''}">${j.goles}</div><div class="gol-label">goles</div></div>
   </div>`).join('');
 
 // Fechas
@@ -760,7 +767,9 @@ function renderTablaTorneo(datos, nombre) {
       ? (typeof j.dif === 'number' ? (j.dif > 0 ? '+'+j.dif : j.dif) : j.dif)
       : (j.gf !== null && j.gc !== null ? (j.gf-j.gc > 0 ? '+'+(j.gf-j.gc) : j.gf-j.gc) : '-');
     const esCampeon = i === 0 && nombre !== TORNEO_NOMBRE;
-    const cls = esCampeon ? ' class="campeon-fila"' : (nombre === TORNEO_NOMBRE && i === 0 ? ' class="lider"' : '');
+    const esCampeonActual = j.campeon === true;
+    const cls = esCampeonActual ? ' class="campeon-fila"' : (esCampeon ? ' class="campeon-fila"' : (nombre === TORNEO_NOMBRE && i === 0 ? ' class="lider"' : ''));
+    const coronaHTML = esCampeonActual ? `<span class="corona-icon">👑</span>` : '';
     let badges = '';
     if (hayForma) {
       badges = (j.forma||[]).map(r => {
@@ -769,7 +778,7 @@ function renderTablaTorneo(datos, nombre) {
       }).join('');
     }
     return `<tr${cls}>
-      <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span>${j.sanciones ? `<span style="margin-left:4px;display:inline-flex;align-items:center">${Array.from({length:j.sanciones}).map(()=>`<span style="display:inline-block;width:6px;height:9px;background:#c0392b;border-radius:1px;box-shadow:0 1px 2px rgba(0,0,0,.5);margin-left:2px"></span>`).join('')}</span>` : ''}</span></td>
+      <td><span class="jugador-cell"><span class="pos-num">${i+1}</span>${coronaHTML}<span class="equipo-nombre">${j.nombre}</span>${j.sanciones ? `<span style="margin-left:4px;display:inline-flex;align-items:center">${Array.from({length:j.sanciones}).map(()=>`<span style="display:inline-block;width:6px;height:9px;background:#c0392b;border-radius:1px;box-shadow:0 1px 2px rgba(0,0,0,.5);margin-left:2px"></span>`).join('')}</span>` : ''}</span></td>
       <td><span class="pts">${j.pts}</span></td>
       <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
       ${hayGF ? `<td>${j.gf}</td><td>${j.gc}</td>` : ''}
