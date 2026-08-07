@@ -696,8 +696,8 @@ renderTablaTorneo(tablaOrdenada, TORNEO_NOMBRE);
 function abrirArmador() {
   const lista = document.getElementById('armador-lista');
   lista.innerHTML = tablaOrdenada.map((j, i) => {
-    const dif = j.dif !== null && j.dif !== undefined
-      ? (typeof j.dif === 'number' ? (j.dif > 0 ? '+'+j.dif : j.dif) : j.dif) : '-';
+    const difVal = j.dif !== undefined ? j.dif : (j.gf - j.gc);
+    const dif = typeof difVal === 'number' ? (difVal > 0 ? '+'+difVal : difVal) : difVal;
     return `<div id="arm-row-${i}" style="display:grid;grid-template-columns:1fr auto auto auto;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);transition:background .2s;border-radius:6px">
       <div style="font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;padding-left:8px">${j.nombre}</div>
       <div style="font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--verde-claro);text-align:center;padding:0 8px">${j.pts}</div>
