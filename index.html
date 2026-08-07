@@ -91,7 +91,6 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 .btn-torneo{background:rgba(10,22,64,.8);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 14px;color:rgba(255,255,255,.6);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.5px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .btn-torneo:hover{border-color:rgba(0,229,255,.4);color:var(--verde-claro)}
 .btn-torneo.activo{border-color:var(--verde-claro);color:var(--verde-claro);background:rgba(0,229,255,.06)}
-.campeon-fila td{background:linear-gradient(90deg,rgba(245,192,64,.08),rgba(245,192,64,.02))!important}
 .campeon-fila .equipo-nombre{color:#f5c040!important}
 .campeon-fila .pos-num{color:#f5c040!important}
 .campeon-fila .pts{color:#f5c040!important}
@@ -99,8 +98,6 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 .goleador-campeon{background:linear-gradient(90deg,rgba(245,192,64,.07),rgba(245,192,64,.02))!important;border-color:rgba(245,192,64,.2)!important}
 .gol-campeon{color:#f5c040!important}
 .gol-bar-campeon{background:linear-gradient(90deg,#f5c040,#e0a020)!important}
-#tabla-posiciones tbody tr.tap-azul{background:rgba(0,180,255,.13)!important}
-#tabla-posiciones tbody tr.tap-rosa{background:rgba(232,90,160,.13)!important}
 .campeon-fila .pos-num{color:#f5c040}
 .campeon-fila .pts{color:#f5c040}
 /* CALCULADORA */
@@ -153,7 +150,29 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
       <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th><th style="text-align:left;padding-left:8px;color:rgba(255,255,255,.3)">Fechas</th></tr></thead>
       <tbody></tbody>
     </table></div>
+    <div style="display:flex;justify-content:center;margin-top:24px">
+      <button id="btn-armador" onclick="abrirArmador()" style="background:rgba(10,22,64,.8);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:11px 28px;color:rgba(255,255,255,.75);font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.6px;cursor:pointer;transition:all .2s">⚽ Armador de Equipos</button>
+    </div>
   </section>
+
+  <!-- Modal armador -->
+  <div id="armador-overlay" onclick="cerrarArmador()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;backdrop-filter:blur(3px)"></div>
+  <div id="armador-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;background:#0a1640;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px;width:min(94vw,420px);max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:var(--verde-claro)">⚽ Armador de Equipos</div>
+      <button onclick="cerrarArmador()" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:1.3rem;cursor:pointer;line-height:1">×</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:0;margin-bottom:8px">
+      <div style="font-family:'Outfit',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 8px 6px">Jugador</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.35);text-align:center;padding:0 8px 6px">PTS</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.35);text-align:center;padding:0 8px 6px">DIF</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.35);text-align:center;padding:0 12px 6px">🟣⬜</div>
+    </div>
+    <div id="armador-lista"></div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:16px">
+      <button onclick="resetArmador()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 20px;color:rgba(255,255,255,.5);font-family:'Outfit',sans-serif;font-size:.75rem;cursor:pointer">Limpiar</button>
+    </div>
+  </div>
 
   <section id="goleadores" class="seccion">
     <div class="seccion-titulo">Tabla de Goleadores</div>
@@ -175,7 +194,7 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
     <div class="seccion-titulo" id="campeonato-titulo">Campeonatos</div>
     <div id="campeonato-botones" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px"></div>
     <div class="tabla-container" id="campeonato-tabla-wrap" style="display:none"><table id="tabla-campeonato">
-      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>DIF</th></tr></thead>
+      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>DIF</th><th style="color:#f5c040">⚽</th></tr></thead>
       <tbody></tbody>
     </table></div>
   </section>
@@ -183,7 +202,7 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
   <section id="historica-tabla" class="seccion">
     <div class="seccion-titulo">Tabla Histórica</div>
     <div class="tabla-container"><table id="tabla-historica">
-      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>+/-</th></tr></thead>
+      <thead><tr><th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>+/-</th><th style="color:#f5c040">⚽</th></tr></thead>
       <tbody></tbody>
     </table></div>
   </section>
@@ -257,9 +276,33 @@ footer{text-align:center;padding:20px;color:rgba(255,255,255,.2);font-size:.72re
 <script>
 // ─── DATOS — acá es donde actualizás cada semana ───────────────────────────
 
-const TORNEO_NOMBRE = "Torneo Apertura 26";
+const TORNEO_NOMBRE = "Torneo Clausura 26";
 
 const torneosAnteriores = [
+  {
+    nombre: "Apertura 2026",
+    tabla: [
+      { nombre:"Chivo",   pts:53, pj:18, g:12, e:1, p:5,  gf:203, gc:182, dif:21,  goles:42 },
+      { nombre:"Maxi",    pts:48, pj:17, g:10, e:1, p:6,  gf:199, gc:165, dif:34,  goles:52 },
+      { nombre:"Fede",    pts:47, pj:16, g:10, e:1, p:5,  gf:174, gc:164, dif:10,  goles:27 },
+      { nombre:"Mati",    pts:43, pj:18, g:8,  e:1, p:9,  gf:189, gc:196, dif:-7,  goles:24 },
+      { nombre:"Rubi",    pts:41, pj:16, g:8,  e:1, p:7,  gf:169, gc:175, dif:-6,  goles:44 },
+      { nombre:"Yamil",   pts:35, pj:16, g:6,  e:1, p:9,  gf:180, gc:175, dif:5,   goles:42 },
+      { nombre:"Darío",   pts:33, pj:14, g:6,  e:1, p:7,  gf:150, gc:146, dif:4,   goles:26 },
+      { nombre:"Luchito", pts:25, pj:9,  g:5,  e:1, p:3,  gf:100, gc:92,  dif:8,   goles:13 },
+      { nombre:"Toro",    pts:25, pj:13, g:4,  e:0, p:9,  gf:124, gc:162, dif:-38, goles:39 },
+      { nombre:"Aaron",   pts:24, pj:9,  g:5,  e:0, p:4,  gf:107, gc:92,  dif:15,  goles:14 },
+      { nombre:"Gaby",    pts:18, pj:6,  g:4,  e:0, p:2,  gf:64,  gc:57,  dif:7,   goles:24 },
+      { nombre:"Compi",   pts:14, pj:8,  g:2,  e:0, p:6,  gf:79,  gc:99,  dif:-20, goles:12 },
+      { nombre:"Cócaro",  pts:13, pj:6,  g:2,  e:1, p:3,  gf:63,  gc:63,  dif:0,   goles:10 },
+      { nombre:"Alan",    pts:10, pj:4,  g:2,  e:0, p:2,  gf:38,  gc:41,  dif:-3,  goles:5  },
+      { nombre:"Juani",   pts:9,  pj:5,  g:1,  e:1, p:3,  gf:50,  gc:51,  dif:-1,  goles:2  },
+      { nombre:"Coco",    pts:2,  pj:2,  g:0,  e:0, p:2,  gf:15,  gc:27,  dif:-12, goles:3  },
+      { nombre:"Tincho",  pts:1,  pj:1,  g:0,  e:0, p:1,  gf:6,   gc:9,   dif:-3,  goles:2  },
+      { nombre:"Javi",    pts:1,  pj:1,  g:0,  e:0, p:1,  gf:9,   gc:16,  dif:-7,  goles:2  },
+      { nombre:"Mariano", pts:1,  pj:1,  g:0,  e:0, p:1,  gf:6,   gc:13,  dif:-7,  goles:0  },
+    ]
+  },
   {
     nombre: "Copa Verano 2026",
     tabla: [
@@ -393,227 +436,58 @@ const torneosAnteriores = [
 ];
 
 const tablaPosiciones = [
-  // { nombre, pts, pj, g, e, p, gf, gc, forma: "V","E","D","-" no jugó/no estaba }
-  { nombre:"Chivo",   pts:53, pj:18, g:12, e:1, p:5,  gf:203, gc:182, sanciones:2, campeon:true, forma:["V","V","V","V","D","V","D","V","D","V","V","V","D","V","V","D","E","V"] },
-  { nombre:"Maxi",    pts:48, pj:17, g:10, e:1, p:6,  gf:199, gc:165, forma:["D","V","V","D","V","V","-","D","V","V","D","V","V","D","D","V","E","V"] },
-  { nombre:"Fede",    pts:47, pj:16, g:10, e:1, p:5,  gf:174, gc:164, forma:["V","D","D","V","V","D","V","V","-","D","-","V","V","V","V","V","E","D"] },
-  { nombre:"Mati",    pts:43, pj:18, g:8,  e:1, p:9,  gf:189, gc:196, forma:["V","D","V","D","D","D","V","V","D","V","V","D","D","D","V","D","E","V"] },
-  { nombre:"Rubi",    pts:41, pj:16, g:8,  e:1, p:7,  gf:169, gc:175, forma:["V","-","V","V","D","V","V","D","V","D","D","D","-","V","D","V","E","D"] },
-  { nombre:"Yamil",   pts:35, pj:16, g:6,  e:1, p:9,  gf:180, gc:175, forma:["-","V","D","D","V","-","D","V","D","D","V","D","V","D","D","D","E","V"] },
-  { nombre:"Darío",   pts:33, pj:14, g:6,  e:1, p:7,  gf:150, gc:146, forma:["D","D","V","D","D","V","D","-","V","-","D","-","V","V","V","-","E","D"] },
-  { nombre:"Luchito", pts:25, pj:9,  g:5,  e:1, p:3,  gf:100, gc:92,  forma:["-","-","-","-","-","V","D","V","V","V","D","V","D","-","-","-","E","-"] },
-  { nombre:"Toro",    pts:25, pj:13, g:4,  e:0, p:9,  gf:124, gc:162, forma:["D","D","D","V","-","-","V","D","D","D","V","D","D","-","D","-","-","V"] },
-  { nombre:"Aaron",   pts:24, pj:9,  g:5,  e:0, p:4,  gf:107, gc:92,  forma:["D","V","-","-","-","-","D","-","D","V","-","-","-","V","V","V","-","D"] },
-  { nombre:"Gaby",    pts:18, pj:6,  g:4,  e:0, p:2,  gf:64,  gc:57,  forma:["V","V","D","V","V","D","-","-","-","-","-","-","-","-","-","-","-","-"] },
-  { nombre:"Compi",   pts:14, pj:8,  g:2,  e:0, p:6,  gf:79,  gc:99,  forma:["D","-","-","D","D","-","-","-","V","D","-","V","D","D","-","-","-","-"] },
-  { nombre:"Cócaro",  pts:13, pj:6,  g:2,  e:1, p:3,  gf:63,  gc:63,  forma:["-","-","-","-","-","-","-","-","-","-","V","D","-","-","D","V","E","D"] },
-  { nombre:"Alan",    pts:10, pj:4,  g:2,  e:0, p:2,  gf:38,  gc:41,  forma:["-","D","-","-","-","-","V","-","-","-","-","-","V","-","-","D","-","-"] },
-  { nombre:"Juani",   pts:9,  pj:5,  g:1,  e:1, p:3,  gf:50,  gc:51,  forma:["-","-","-","-","V","D","-","-","-","-","D","-","-","D","-","-","E","-"] },
-  { nombre:"Coco",    pts:2,  pj:2,  g:0,  e:0, p:2,  gf:15,  gc:27,  forma:["-","-","-","-","-","-","-","D","-","-","-","-","-","-","-","D","-","-"] },
-  { nombre:"Tincho",  pts:1,  pj:1,  g:0,  e:0, p:1,  gf:6,   gc:9,   forma:["-","-","-","-","-","D","-","-","-","-","-","-","-","-","-","-","-","-"] },
-  { nombre:"Javi",    pts:1,  pj:1,  g:0,  e:0, p:1,  gf:9,   gc:16,  forma:["-","-","-","-","-","-","-","D","-","-","-","-","-","-","-","-","-","-"] },
-  { nombre:"Mariano", pts:1,  pj:1,  g:0,  e:0, p:1,  gf:6,   gc:13,  forma:["-","-","D","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-"] },
+  // { nombre, pts, pj, g, e, p, gf, gc, forma }
+  { nombre:"Fede",    pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:8,  forma:["V"] },
+  { nombre:"Aaron",   pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:8,  forma:["V"] },
+  { nombre:"Chivo",   pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:8,  sanciones:0, forma:["V"] },
+  { nombre:"Rubi",    pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:8,  forma:["V"] },
+  { nombre:"Alan",    pts:3, pj:1, g:1, e:0, p:0, gf:14, gc:8,  sanciones:1, forma:["V"] },
+  { nombre:"Mati",    pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
+  { nombre:"Cócaro",  pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
+  { nombre:"Toro",    pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
+  { nombre:"Coco",    pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
+  { nombre:"Maxi",    pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
+  { nombre:"Yamil",   pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
+  { nombre:"Darío",   pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
+  { nombre:"Luchito", pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
+  { nombre:"Gaby",    pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
+  { nombre:"Compi",   pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
+  { nombre:"Juani",   pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
+  { nombre:"Tincho",  pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
+  { nombre:"Javi",    pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
+  { nombre:"Mariano", pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
 ];
 
 const goleadores = [
-  { nombre:"Maxi",    goles:52, campeon:true },
-  { nombre:"Rubi",    goles:44 },
-  { nombre:"Chivo",   goles:42 },
-  { nombre:"Yamil",   goles:42 },
-  { nombre:"Toro",    goles:39 },
-  { nombre:"Fede",    goles:27 },
-  { nombre:"Darío",   goles:26 },
-  { nombre:"Mati",    goles:24 },
-  { nombre:"Gaby",    goles:24 },
-  { nombre:"Aaron",   goles:14 },
-  { nombre:"Luchito", goles:13 },
-  { nombre:"Compi",   goles:12 },
-  { nombre:"Cócaro",  goles:10 },
-  { nombre:"Alan",    goles:5  },
-  { nombre:"Coco",    goles:3  },
-  { nombre:"Juani",   goles:2  },
-  { nombre:"Javi",    goles:2  },
-  { nombre:"Tincho",  goles:2  },
+  { nombre:"Chivo",   goles:4 },
+  { nombre:"Fede",    goles:4 },
+  { nombre:"Maxi",    goles:3 },
+  { nombre:"Aaron",   goles:3 },
+  { nombre:"Cócaro",  goles:3 },
+  { nombre:"Rubi",    goles:2 },
+  { nombre:"Toro",    goles:1 },
+  { nombre:"Alan",    goles:1 },
+  { nombre:"Coco",    goles:1 },
 ];
 
 const fechas = [
   {
-    titulo: "Fecha 1 — 17 Mar 2026",
+    titulo: "Fecha 1 — 4 Ago 2026",
     partidos: [
       {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Chivo, Mati, Rubi, Gaby" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Maxi, Aaron, Toro, Compi, Darío" },
-        marcador: "8 - 7"
+        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Aaron, Chivo, Alan, Rubi" },
+        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Mati, Cócaro, Toro, Coco, Maxi" },
+        marcador: "14 - 8"
       }
     ]
   },
   {
-    titulo: "Fecha 2 — 24 Mar 2026",
+    titulo: "Fecha 2 — Próxima fecha",
     partidos: [
       {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Chivo, Gaby, Maxi, Aaron, Yamil" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Fede, Mati, Toro, Darío, Alan" },
-        marcador: "16 - 8"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 3 — 31 Mar 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Chivo, Maxi, Mati, Darío, Rubi" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Gaby, Fede, Mariano, Yamil, Toro" },
-        marcador: "13 - 6"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 4 — 7 Abr 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Maxi, Mati, Darío, Yamil, Compi" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Chivo, Gaby, Rubi, Fede, Toro" },
-        marcador: "11 - 13"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 5 — 14 Abr 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Chivo, Mati, Darío, Rubi, Compi" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Gaby, Yamil, Fede, Maxi, Juani" },
-        marcador: "9 - 15"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 6 — 21 Abr 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Gaby, Fede, Mati, Juani, Tincho" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Chivo, Maxi, Rubi, Darío, Luchito" },
-        marcador: "6 - 9"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 7 — 28 Abr 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Mati, Fede, Toro, Rubi, Alan" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Chivo, Darío, Aaron, Yamil, Luchito" },
-        marcador: "11 - 10"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 8 — 5 May 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Yamil, Chivo, Luchito, Mati" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Toro, Rubi, Maxi, Coco, Javi" },
-        marcador: "16 - 9"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 9 — 12 May 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Rubi, Maxi, Darío, Compi, Luchito" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Chivo, Mati, Yamil, Toro, Aaron" },
-        marcador: "16 - 12"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 10 — 19 May 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Chivo, Maxi, Mati, Luchito, Aaron" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Rubi, Fede, Yamil, Toro, Compi" },
-        marcador: "15 - 9"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 11 — 26 May 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Chivo, Mati, Yamil, Toro, Cócaro" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Maxi, Rubi, Luchito, Darío, Juani" },
-        marcador: "11 - 9"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 12 — 2 Jun 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Chivo, Fede, Compi, Maxi, Luchito" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Mati, Rubi, Toro, Yamil, Cócaro" },
-        marcador: "12 - 11"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 13 — 9 Jun 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Maxi, Alan, Yamil, Darío, Fede" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Compi, Chivo, Mati, Toro, Luchito" },
-        marcador: "13 - 4"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 14 — 16 Jun 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Maxi, Juani, Yamil, Mati, Compi" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Chivo, Fede, Darío, Aaron, Rubi" },
-        marcador: "11 - 12"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 15 — 23 Jun 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Mati, Chivo, Darío, Aaron" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Maxi, Toro, Cócaro, Yamil, Rubi" },
-        marcador: "15 - 11"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 16 — 30 Jun 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Aaron, Maxi, Rubi, Cócaro" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Mati, Chivo, Yamil, Alan, Coco" },
-        marcador: "11 - 6"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 17 — 7 Jul 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Chivo, Maxi, Mati, Yamil, Luchito" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Fede, Rubi, Darío, Juani, Cócaro" },
-        marcador: "10 - 10"
-      }
-    ]
-  },
-  {
-    titulo: "Fecha 18 — 14 Jul 2026",
-    partidos: [
-      {
-        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Aaron, Cócaro, Rubi, Darío" },
-        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Toro, Maxi, Chivo, Yamil, Mati" },
-        marcador: "9 - 12"
+        local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"—" },
+        visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"—" },
+        marcador: null
       }
     ]
   },
@@ -638,32 +512,32 @@ const rankingCampeones = [
 ];
 
 const tablaHistorica = [
-  // { nombre, pts, pj, g, e, p, dif }
-  { nombre:"Chivo",    pts:275, pj:110, g:63, e:10, p:37, dif:"+126" },
-  { nombre:"Maxi",     pts:247, pj:100, g:55, e:8,  p:37, dif:"+113" },
-  { nombre:"Fede",     pts:237, pj:98,  g:50, e:8,  p:40, dif:"+5"   },
-  { nombre:"Darío",    pts:205, pj:92,  g:43, e:9,  p:40, dif:"+16"  },
-  { nombre:"Mati",     pts:202, pj:99,  g:40, e:10, p:49, dif:"-65"  },
-  { nombre:"Rubi",     pts:198, pj:94,  g:41, e:9,  p:44, dif:"-31"  },
-  { nombre:"Toro",     pts:122, pj:68,  g:24, e:6,  p:38, dif:"-88"  },
-  { nombre:"Aaron",    pts:92,  pj:41,  g:22, e:5,  p:14, dif:"+64"  },
-  { nombre:"Lucas",    pts:81,  pj:34,  g:15, e:4,  p:15, dif:"-19"  },
-  { nombre:"Cócaro",   pts:61,  pj:29,  g:12, e:3,  p:14, dif:"-29"  },
-  { nombre:"Nuno",     pts:60,  pj:22,  g:12, e:2,  p:8,  dif:"0"    },
-  { nombre:"Coco",     pts:60,  pj:34,  g:11, e:4,  p:19, dif:"-58"  },
-  { nombre:"Juani",    pts:52,  pj:33,  g:9,  e:3,  p:21, dif:"-64"  },
-  { nombre:"Compi",    pts:49,  pj:27,  g:7,  e:2,  p:18, dif:"-57"  },
-  { nombre:"Gaby",     pts:43,  pj:20,  g:12, e:1,  p:7,  dif:"+36"  },
-  { nombre:"Nahue",    pts:43,  pj:18,  g:9,  e:3,  p:6,  dif:"+2"   },
-  { nombre:"Yamil",    pts:35,  pj:16,  g:6,  e:1,  p:9,  dif:"+5"   },
-  { nombre:"Luchito",  pts:25,  pj:9,   g:5,  e:1,  p:3,  dif:"+8"   },
-  { nombre:"Tomi rnr", pts:21,  pj:9,   g:7,  e:0,  p:2,  dif:"+34"  },
-  { nombre:"Valen",    pts:18,  pj:8,   g:6,  e:0,  p:2,  dif:"+40"  },
-  { nombre:"Juan A.",  pts:13,  pj:6,   g:4,  e:1,  p:1,  dif:"+16"  },
-  { nombre:"Alan",     pts:10,  pj:4,   g:2,  e:0,  p:2,  dif:"-3"   },
-  { nombre:"Tincho",   pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-3"   },
-  { nombre:"Javi",     pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-7"   },
-  { nombre:"Mariano",  pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-7"   },
+  // { nombre, pts, pj, g, e, p, dif, goles }
+  { nombre:"Chivo",    pts:279, pj:111, g:64, e:10, p:37, dif:"+132", goles:46 },
+  { nombre:"Maxi",     pts:248, pj:101, g:55, e:8,  p:38, dif:"+107", goles:55 },
+  { nombre:"Fede",     pts:241, pj:99,  g:51, e:8,  p:40, dif:"+11",  goles:31 },
+  { nombre:"Darío",    pts:205, pj:92,  g:43, e:9,  p:40, dif:"+16",  goles:26 },
+  { nombre:"Mati",     pts:203, pj:100, g:40, e:10, p:50, dif:"-71",  goles:24 },
+  { nombre:"Rubi",     pts:202, pj:95,  g:42, e:9,  p:44, dif:"-25",  goles:46 },
+  { nombre:"Toro",     pts:123, pj:69,  g:24, e:6,  p:39, dif:"-94",  goles:40 },
+  { nombre:"Aaron",    pts:96,  pj:42,  g:23, e:5,  p:14, dif:"+70",  goles:17 },
+  { nombre:"Lucas",    pts:81,  pj:34,  g:15, e:4,  p:15, dif:"-19",  goles:0  },
+  { nombre:"Cócaro",   pts:62,  pj:30,  g:12, e:3,  p:15, dif:"-35",  goles:13 },
+  { nombre:"Nuno",     pts:60,  pj:22,  g:12, e:2,  p:8,  dif:"0",    goles:0  },
+  { nombre:"Coco",     pts:61,  pj:35,  g:11, e:4,  p:20, dif:"-64",  goles:4  },
+  { nombre:"Juani",    pts:52,  pj:33,  g:9,  e:3,  p:21, dif:"-64",  goles:2  },
+  { nombre:"Compi",    pts:49,  pj:27,  g:7,  e:2,  p:18, dif:"-57",  goles:12 },
+  { nombre:"Gaby",     pts:43,  pj:20,  g:12, e:1,  p:7,  dif:"+36",  goles:24 },
+  { nombre:"Nahue",    pts:43,  pj:18,  g:9,  e:3,  p:6,  dif:"+2",   goles:0  },
+  { nombre:"Yamil",    pts:35,  pj:16,  g:6,  e:1,  p:9,  dif:"+5",   goles:42 },
+  { nombre:"Luchito",  pts:25,  pj:9,   g:5,  e:1,  p:3,  dif:"+8",   goles:13 },
+  { nombre:"Tomi rnr", pts:21,  pj:9,   g:7,  e:0,  p:2,  dif:"+34",  goles:0  },
+  { nombre:"Valen",    pts:18,  pj:8,   g:6,  e:0,  p:2,  dif:"+40",  goles:0  },
+  { nombre:"Juan A.",  pts:13,  pj:6,   g:4,  e:1,  p:1,  dif:"+16",  goles:0  },
+  { nombre:"Alan",     pts:13,  pj:5,   g:3,  e:0,  p:2,  dif:"+3",   goles:6  },
+  { nombre:"Tincho",   pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-3",   goles:2  },
+  { nombre:"Javi",     pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-7",   goles:2  },
+  { nombre:"Mariano",  pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-7",   goles:0  },
 ];
 
 // ─── RENDER ────────────────────────────────────────────────────────────────
@@ -726,7 +600,7 @@ document.querySelector('#tabla-historica tbody').innerHTML = tablaHistorica.map(
   <tr${i===0?' class="lider"':''}>
     <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
     <td><span class="pts">${j.pts}</span></td>
-    <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td><td>${j.dif}</td>
+    <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td><td>${j.dif}</td><td>${j.goles ?? 0}</td>
   </tr>`).join('');
 
 // Ordenar torneo actual
@@ -808,6 +682,7 @@ torneosAnteriores.forEach(t => {
         <td><span class="pts">${j.pts}</span></td>
         <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
         <td>${dif}</td>
+        <td>${j.goles !== undefined ? j.goles : ''}</td>
       </tr>`;
     }).join('');
   };
@@ -817,27 +692,52 @@ torneosAnteriores.forEach(t => {
 // Render inicial con torneo actual
 renderTablaTorneo(tablaOrdenada, TORNEO_NOMBRE);
 
-// Tap cycle en filas de tabla: normal → azul → rosa → normal
-function cicloFila(tr) {
-  const estado = parseInt(tr.dataset.tapEstado || '0');
-  const siguiente = estado >= 2 ? 0 : estado + 1;
-  tr.dataset.tapEstado = siguiente;
-  tr.classList.remove('tap-azul', 'tap-rosa');
-  if (siguiente === 1) tr.classList.add('tap-azul');
-  else if (siguiente === 2) tr.classList.add('tap-rosa');
+// ── ARMADOR DE EQUIPOS ──────────────────────────────────────
+function abrirArmador() {
+  const lista = document.getElementById('armador-lista');
+  lista.innerHTML = tablaOrdenada.map((j, i) => {
+    const dif = j.dif !== null && j.dif !== undefined
+      ? (typeof j.dif === 'number' ? (j.dif > 0 ? '+'+j.dif : j.dif) : j.dif) : '-';
+    return `<div id="arm-row-${i}" style="display:grid;grid-template-columns:1fr auto auto auto;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);transition:background .2s;border-radius:6px">
+      <div style="font-family:'Outfit',sans-serif;font-size:.88rem;font-weight:600;padding-left:8px">${j.nombre}</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--verde-claro);text-align:center;padding:0 8px">${j.pts}</div>
+      <div style="font-family:'Outfit',sans-serif;font-size:.8rem;color:rgba(255,255,255,.5);text-align:center;padding:0 8px;min-width:38px">${dif}</div>
+      <div style="display:flex;gap:6px;padding-right:8px">
+        <input type="checkbox" data-row="${i}" data-equipo="rosa" onchange="toggleEquipo(this)" style="width:16px;height:16px;cursor:pointer;accent-color:#e75480">
+        <input type="checkbox" data-row="${i}" data-equipo="blanco" onchange="toggleEquipo(this)" style="width:16px;height:16px;cursor:pointer;accent-color:#cccccc">
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('armador-overlay').style.display = 'block';
+  document.getElementById('armador-modal').style.display = 'block';
 }
-const tbodyTabla = document.querySelector('#tabla-posiciones tbody');
-tbodyTabla.addEventListener('touchend', e => {
-  const tr = e.target.closest('tr');
-  if (!tr) return;
-  e.preventDefault();
-  cicloFila(tr);
-});
-tbodyTabla.addEventListener('click', e => {
-  const tr = e.target.closest('tr');
-  if (!tr || tr.dataset.touchHandled) return;
-  cicloFila(tr);
-});
+
+function toggleEquipo(cb) {
+  const row = document.getElementById('arm-row-' + cb.dataset.row);
+  const otros = row.querySelectorAll('input[type=checkbox]');
+  // Si se activa uno, desactiva el otro
+  otros.forEach(o => { if (o !== cb) o.checked = false; });
+  if (cb.checked) {
+    row.style.background = cb.dataset.equipo === 'rosa'
+      ? 'rgba(232,90,160,.18)' : 'rgba(220,220,220,.13)';
+  } else {
+    row.style.background = '';
+  }
+}
+
+function resetArmador() {
+  document.querySelectorAll('#armador-lista input[type=checkbox]').forEach(cb => {
+    cb.checked = false;
+  });
+  document.querySelectorAll('#armador-lista [id^=arm-row-]').forEach(row => {
+    row.style.background = '';
+  });
+}
+
+function cerrarArmador() {
+  document.getElementById('armador-overlay').style.display = 'none';
+  document.getElementById('armador-modal').style.display = 'none';
+}
 </script>
 </body>
 </html>
