@@ -437,16 +437,16 @@ const torneosAnteriores = [
 
 const tablaPosiciones = [
   // { nombre, pts, pj, g, e, p, gf, gc, forma }
-  { nombre:"Fede",    pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:8,  forma:["V"] },
-  { nombre:"Aaron",   pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:8,  forma:["V"] },
-  { nombre:"Chivo",   pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:8,  sanciones:0, forma:["V"] },
-  { nombre:"Rubi",    pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:8,  forma:["V"] },
-  { nombre:"Alan",    pts:3, pj:1, g:1, e:0, p:0, gf:14, gc:8,  sanciones:1, forma:["V"] },
-  { nombre:"Mati",    pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
-  { nombre:"Cócaro",  pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
-  { nombre:"Toro",    pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
-  { nombre:"Coco",    pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
-  { nombre:"Maxi",    pts:1, pj:1, g:0, e:0, p:1, gf:8,  gc:14, forma:["D"] },
+  { nombre:"Chivo",   pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:7,  sanciones:0, forma:["V"] },
+  { nombre:"Fede",    pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:7,  forma:["V"] },
+  { nombre:"Aaron",   pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:7,  forma:["V"] },
+  { nombre:"Rubi",    pts:4, pj:1, g:1, e:0, p:0, gf:14, gc:7,  forma:["V"] },
+  { nombre:"Alan",    pts:3, pj:1, g:1, e:0, p:0, gf:14, gc:7,  sanciones:1, forma:["V"] },
+  { nombre:"Maxi",    pts:1, pj:1, g:0, e:0, p:1, gf:7,  gc:14, forma:["D"] },
+  { nombre:"Mati",    pts:1, pj:1, g:0, e:0, p:1, gf:7,  gc:14, forma:["D"] },
+  { nombre:"Toro",    pts:1, pj:1, g:0, e:0, p:1, gf:7,  gc:14, forma:["D"] },
+  { nombre:"Cócaro",  pts:1, pj:1, g:0, e:0, p:1, gf:7,  gc:14, forma:["D"] },
+  { nombre:"Coco",    pts:1, pj:1, g:0, e:0, p:1, gf:7,  gc:14, forma:["D"] },
   { nombre:"Yamil",   pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
   { nombre:"Darío",   pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
   { nombre:"Luchito", pts:0, pj:0, g:0, e:0, p:0, gf:0,  gc:0,  forma:[] },
@@ -459,10 +459,10 @@ const tablaPosiciones = [
 ];
 
 const goleadores = [
-  { nombre:"Chivo",   goles:4 },
   { nombre:"Fede",    goles:4 },
+  { nombre:"Aaron",   goles:4 },
+  { nombre:"Chivo",   goles:3 },
   { nombre:"Maxi",    goles:3 },
-  { nombre:"Aaron",   goles:3 },
   { nombre:"Cócaro",  goles:3 },
   { nombre:"Rubi",    goles:2 },
   { nombre:"Toro",    goles:1 },
@@ -477,7 +477,7 @@ const fechas = [
       {
         local:    { equipo:"Rosa",  color:"#e75480", stroke:"#c0306a", jugadores:"Fede, Aaron, Chivo, Alan, Rubi" },
         visitante:{ equipo:"Negro", color:"#222",    stroke:"#555",    jugadores:"Mati, Cócaro, Toro, Coco, Maxi" },
-        marcador: "14 - 8"
+        marcador: "14 - 7"
       }
     ]
   },
@@ -513,18 +513,18 @@ const rankingCampeones = [
 
 const tablaHistorica = [
   // { nombre, pts, pj, g, e, p, dif, goles }
-  { nombre:"Chivo",    pts:279, pj:111, g:64, e:10, p:37, dif:"+132", goles:46 },
-  { nombre:"Maxi",     pts:248, pj:101, g:55, e:8,  p:38, dif:"+107", goles:55 },
-  { nombre:"Fede",     pts:241, pj:99,  g:51, e:8,  p:40, dif:"+11",  goles:31 },
+  { nombre:"Chivo",    pts:279, pj:111, g:64, e:10, p:37, dif:"+133", goles:46 },
+  { nombre:"Maxi",     pts:248, pj:101, g:55, e:8,  p:38, dif:"+106", goles:55 },
+  { nombre:"Fede",     pts:241, pj:99,  g:51, e:8,  p:40, dif:"+12",  goles:31 },
   { nombre:"Darío",    pts:205, pj:92,  g:43, e:9,  p:40, dif:"+16",  goles:26 },
-  { nombre:"Mati",     pts:203, pj:100, g:40, e:10, p:50, dif:"-71",  goles:24 },
-  { nombre:"Rubi",     pts:202, pj:95,  g:42, e:9,  p:44, dif:"-25",  goles:46 },
-  { nombre:"Toro",     pts:123, pj:69,  g:24, e:6,  p:39, dif:"-94",  goles:40 },
-  { nombre:"Aaron",    pts:96,  pj:42,  g:23, e:5,  p:14, dif:"+70",  goles:17 },
+  { nombre:"Mati",     pts:203, pj:100, g:40, e:10, p:50, dif:"-72",  goles:24 },
+  { nombre:"Rubi",     pts:202, pj:95,  g:42, e:9,  p:44, dif:"-24",  goles:46 },
+  { nombre:"Toro",     pts:123, pj:69,  g:24, e:6,  p:39, dif:"-95",  goles:40 },
+  { nombre:"Aaron",    pts:96,  pj:42,  g:23, e:5,  p:14, dif:"+71",  goles:17 },
   { nombre:"Lucas",    pts:81,  pj:34,  g:15, e:4,  p:15, dif:"-19",  goles:0  },
-  { nombre:"Cócaro",   pts:62,  pj:30,  g:12, e:3,  p:15, dif:"-35",  goles:13 },
+  { nombre:"Cócaro",   pts:62,  pj:30,  g:12, e:3,  p:15, dif:"-36",  goles:13 },
   { nombre:"Nuno",     pts:60,  pj:22,  g:12, e:2,  p:8,  dif:"0",    goles:0  },
-  { nombre:"Coco",     pts:61,  pj:35,  g:11, e:4,  p:20, dif:"-64",  goles:4  },
+  { nombre:"Coco",     pts:61,  pj:35,  g:11, e:4,  p:20, dif:"-65",  goles:4  },
   { nombre:"Juani",    pts:52,  pj:33,  g:9,  e:3,  p:21, dif:"-64",  goles:2  },
   { nombre:"Compi",    pts:49,  pj:27,  g:7,  e:2,  p:18, dif:"-57",  goles:12 },
   { nombre:"Gaby",     pts:43,  pj:20,  g:12, e:1,  p:7,  dif:"+36",  goles:24 },
@@ -534,7 +534,7 @@ const tablaHistorica = [
   { nombre:"Tomi rnr", pts:21,  pj:9,   g:7,  e:0,  p:2,  dif:"+34",  goles:0  },
   { nombre:"Valen",    pts:18,  pj:8,   g:6,  e:0,  p:2,  dif:"+40",  goles:0  },
   { nombre:"Juan A.",  pts:13,  pj:6,   g:4,  e:1,  p:1,  dif:"+16",  goles:0  },
-  { nombre:"Alan",     pts:13,  pj:5,   g:3,  e:0,  p:2,  dif:"+3",   goles:6  },
+  { nombre:"Alan",     pts:13,  pj:5,   g:3,  e:0,  p:2,  dif:"+4",   goles:6  },
   { nombre:"Tincho",   pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-3",   goles:2  },
   { nombre:"Javi",     pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-7",   goles:2  },
   { nombre:"Mariano",  pts:1,   pj:1,   g:0,  e:0,  p:1,  dif:"-7",   goles:0  },
@@ -673,16 +673,34 @@ torneosAnteriores.forEach(t => {
     btn.classList.add('activo');
     document.getElementById('campeonato-titulo').textContent = t.nombre;
     document.getElementById('campeonato-tabla-wrap').style.display = 'block';
+
+    // Header: pelota dorada SVG para Apertura 2026, ⚽ dorado para otros
+    const thead = document.querySelector('#tabla-campeonato thead tr');
+    const hasGoles = t.tabla.some(j => j.goles !== undefined);
+    const golHeader = hasGoles
+      ? (t.nombre === 'Apertura 2026'
+          ? `<th><span style="filter:sepia(1) saturate(4) hue-rotate(5deg) brightness(1.1);font-size:.85rem">⚽</span></th>`
+          : `<th style="color:#f5c040">⚽</th>`)
+      : '';
+    thead.innerHTML = `<th>Jugador</th><th>PTS</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>DIF</th>${golHeader}`;
+
+    // Encontrar el máximo goleador para resaltarlo
+    const maxGoles = hasGoles ? Math.max(...t.tabla.map(j => j.goles ?? 0)) : 0;
+
     document.querySelector('#tabla-campeonato tbody').innerHTML = t.tabla.map((j, i) => {
       const dif = j.dif !== null && j.dif !== undefined
         ? (typeof j.dif === 'number' ? (j.dif > 0 ? '+'+j.dif : j.dif) : j.dif) : '-';
       const cls = i === 0 ? ' class="campeon-fila"' : '';
+      const esMaxGoleador = hasGoles && j.goles === maxGoles && maxGoles > 0;
+      const golesCell = j.goles !== undefined
+        ? (esMaxGoleador ? `<td><span style="color:#f5c040;font-weight:700">${j.goles}</span></td>` : `<td>${j.goles}</td>`)
+        : '<td></td>';
       return `<tr${cls}>
         <td><span class="jugador-cell"><span class="pos-num">${i+1}</span><span class="equipo-nombre">${j.nombre}</span></span></td>
         <td><span class="pts">${j.pts}</span></td>
         <td>${j.pj}</td><td>${j.g}</td><td>${j.e}</td><td>${j.p}</td>
         <td>${dif}</td>
-        <td>${j.goles !== undefined ? j.goles : ''}</td>
+        ${hasGoles ? golesCell : ''}
       </tr>`;
     }).join('');
   };
